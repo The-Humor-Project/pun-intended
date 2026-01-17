@@ -53,6 +53,36 @@ export default function Sidebar() {
     setIsOpen(event.currentTarget.open);
   };
 
+  const handleSignIn = useCallback(async () => {
+    const client = supabase;
+    if (!client) {
+      return;
+    }
+
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    if (!siteUrl) {
+      setAuthError("NEXT_PUBLIC_SITE_URL is not configured.");
+      return;
+    }
+
+    const redirectUrl = new URL("/auth/callback", siteUrl);
+
+    setIsWorking(true);
+    setAuthError(null);
+
+    const { error } = await client.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: redirectUrl.toString(),
+      },
+    });
+
+    if (error) {
+      setAuthError(error.message);
+      setIsWorking(false);
+    }
+  }, []);
+
   useEffect(() => {
     const client = supabase;
     if (!client) {
@@ -162,7 +192,7 @@ export default function Sidebar() {
     return { displayName, secondary };
   }, [session]);
 
-  const isSignOutDisabled = isBooting || isWorking;
+  const isAuthActionDisabled = isBooting || isWorking;
 
   return (
     <details className="sidebar" open={isOpen} onToggle={handleToggle}>
@@ -187,11 +217,6 @@ export default function Sidebar() {
         </nav>
         <div className="sidebar__spacer" aria-hidden="true" />
         <div className="sidebar__footer">
-          {isSuperadmin ? (
-            <Link className="sidebar__link" href="/admin">
-              Admin
-            </Link>
-          ) : null}
           <ThemeToggle />
           <div className="sidebar__account" aria-live="polite">
             <span className="sidebar__account-label">Account</span>
@@ -215,18 +240,39 @@ export default function Sidebar() {
               <span className="sidebar__account-error">{authError}</span>
             ) : null}
             {session ? (
+              <>
+                {isSuperadmin ? (
+                  <Link
+                    className="sidebar__account-button sidebar__account-button--center"
+                    href="/admin"
+                  >
+                    Admin
+                  </Link>
+                ) : null}
+                <Link
+                  className="sidebar__account-button sidebar__account-button--center"
+                  href="/profile"
+                >
+                  Profile
+                </Link>
+                <button
+                  type="button"
+                  className="sidebar__account-button"
+                  onClick={handleSignOut}
+                  disabled={isAuthActionDisabled}
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
               <button
                 type="button"
                 className="sidebar__account-button"
-                onClick={handleSignOut}
-                disabled={isSignOutDisabled}
+                onClick={handleSignIn}
+                disabled={isAuthActionDisabled}
               >
-                Sign Out
-              </button>
-            ) : (
-              <Link className="sidebar__account-button" href="/login">
                 Sign In
-              </Link>
+              </button>
             )}
           </div>
         </div>

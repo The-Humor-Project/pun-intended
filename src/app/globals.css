@@ -558,6 +558,10 @@ main {
   transform: none;
 }
 
+.sidebar__account-button--center {
+  text-align: center;
+}
+
 .auth-card__panel {
   margin-top: 16px;
   display: grid;
@@ -1599,7 +1603,6 @@ a:hover {
 }
 
 .assignments-list__link:hover {
-  transform: translateY(-2px);
   border-color: var(--week-open-border);
   box-shadow: var(--week-open-shadow);
   color: var(--ink);
@@ -2390,7 +2393,6 @@ a:hover {
 
 @media (hover: hover) {
   .card:hover {
-    transform: translateY(-6px);
     box-shadow: var(--card-hover-shadow);
   }
 
@@ -2403,21 +2405,8 @@ a:hover {
     opacity: 0.16;
   }
 
-  .card.assignments:hover,
-  .card.meeting-agendas:hover {
-    transform: translateY(-6px);
-  }
-
-  .week:hover {
-    transform: translateY(-2px);
-  }
-
   .week summary:hover {
     background-color: var(--hover-wash);
   }
 
-  .list li:hover,
-  .week li:hover {
-    transform: translateX(6px);
-  }
 }

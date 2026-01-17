@@ -1,10 +1,10 @@
 "use server";
 
-import { createServerClient } from "@supabase/ssr";
-import type { SupabaseClient } from "@supabase/supabase-js";
-import { cookies } from "next/headers";
+import {createServerClient, type SetAllCookies} from "@supabase/ssr";
+import type {SupabaseClient} from "@supabase/supabase-js";
+import {cookies} from "next/headers";
 
-import type { Database } from "@/types/supabase";
+import type {Database} from "@/types/supabase";
 
 export const createSupabaseServerClient = async (): Promise<
   SupabaseClient<Database>
@@ -24,7 +24,7 @@ export const createSupabaseServerClient = async (): Promise<
       getAll() {
         return cookieStore.getAll();
       },
-      setAll(cookiesToSet) {
+      setAll(cookiesToSet: Parameters<SetAllCookies>[0]) {
         cookiesToSet.forEach(({ name, value, options }) => {
           cookieStore.set(name, value, options);
         });

@@ -42,9 +42,15 @@ const deliverables = [
   "A prompt testing application to develop your own humor model.",
 ];
 
+const humorStudy =
+  "Complete the weekly Humor Study on HumorStudy.org to record your votes. " +
+  "Humor Study completion accounts for 50% of your final grade.";
+
 const grading = [
-  "Linear Card completion: 60%",
-  "On-time Akify Standup completion: 40%",
+  "Humor Study completion: 50%",
+  "Public-facing ranking application: 10%",
+  "Admin area application: 15%",
+  "Prompt testing application: 25%",
 ];
 
 const learningGoals = [
@@ -53,19 +59,16 @@ const learningGoals = [
   "Learn how data is modeled well in a production-grade database",
   "Understand how authentication and authorization work",
   "Deploy continuously to Vercel and run user tests to iterate on a product.",
-  "Use a project management tool to track your progress: Linear",
+  "Use a CSS framework: TailwindCSS",
   "Learn how to use the most popular JavaScript framework currently in-use in the industry: NextJS",
 ];
 
 const gradingPolicy = [
-  "We're using the project management software 'Linear' to track your work.",
-  "Each assignment will be written in a detailed Linear card and assigned to you.",
-  "Linear cards must be completed by the due date stated in the card.",
-  "We will use a service called Akify to monitor your progress on your Linear cards.",
-  "Akify will check in with you on Tuesday and Friday mornings to get a status update on your Linear cards.  This is called a 'stand-up'.",
-  "Your Akify standups will be due twice per week.  The deadline to complete your Akify standup will be Tuesday at 3:59pm and Friday at 3:59pm",
-  "All Linear cards must be completed by the end of the semester.",
-  "Late Akify standups are not accepted.",
+  "We'll use the 'Submissions' section of thehumorproject.org to track your progress on deliverables.",
+  "HumorStudy.org will be used to record your votes for each week's humor study.",
+  "Late submissions on your project deliverables are not accepted.",
+  "Each weekly humor study missed results in a 10% reduction in final course grade.",
+  "Late submissions to the Humor Study are not accepted.",
   "It is very possible to get an 'A' in this class.  There is no curve and we do not use norm-referenced grading.  Note: Professor Chilton almost never gives out A+ grades.  The last A+ she gave out went to Barack Obama when he took UI Design.",
 ];
 
@@ -126,6 +129,15 @@ export default function Home() {
         <section
           className="card reveal"
           style={revealStyle(360)}
+          aria-labelledby="humor-study-title"
+        >
+          <h2 id="humor-study-title">Humor study</h2>
+          <p className="lead">{renderTextWithLineBreaks(humorStudy)}</p>
+        </section>
+
+        <section
+          className="card reveal"
+          style={revealStyle(480)}
           aria-labelledby="learning-goals-title"
         >
           <h2 id="learning-goals-title">Learning goals</h2>
@@ -138,7 +150,7 @@ export default function Home() {
 
         <section
           className="card reveal"
-          style={revealStyle(480)}
+          style={revealStyle(600)}
           aria-labelledby="prerequisites-title"
         >
           <h2 id="prerequisites-title">Prerequisites</h2>
@@ -147,7 +159,7 @@ export default function Home() {
 
         <section
           className="card reveal"
-          style={revealStyle(600)}
+          style={revealStyle(720)}
           aria-labelledby="course-schedule-title"
         >
           <h2 id="course-schedule-title">Course schedule</h2>
@@ -156,7 +168,7 @@ export default function Home() {
 
         <section
           className="card reveal"
-          style={revealStyle(720)}
+          style={revealStyle(840)}
           aria-labelledby="exams-title"
         >
           <h2 id="exams-title">Exams</h2>
@@ -165,7 +177,7 @@ export default function Home() {
 
         <section
           className="card reveal"
-          style={revealStyle(840)}
+          style={revealStyle(960)}
           aria-labelledby="credits-title"
         >
           <h2 id="credits-title">Credits</h2>
@@ -174,7 +186,7 @@ export default function Home() {
 
         <section
           className="card reveal"
-          style={revealStyle(960)}
+          style={revealStyle(1080)}
           aria-labelledby="grading-title"
         >
           <h2 id="grading-title">Grading breakdown</h2>
@@ -187,7 +199,7 @@ export default function Home() {
 
         <section
           className="card reveal"
-          style={revealStyle(1080)}
+          style={revealStyle(1200)}
           aria-labelledby="late-policy-title"
         >
           <h2 id="late-policy-title">Grading policy</h2>
@@ -200,7 +212,7 @@ export default function Home() {
 
         <section
           className="card reveal"
-          style={revealStyle(1200)}
+          style={revealStyle(1320)}
           aria-labelledby="tools-title"
         >
           <h2 id="tools-title">Tools required</h2>
@@ -213,7 +225,7 @@ export default function Home() {
 
         <section
           className="card reveal"
-          style={revealStyle(1320)}
+          style={revealStyle(1440)}
           aria-labelledby="lecture-recordings-title"
         >
           <h2 id="lecture-recordings-title">Lecture recordings</h2>
@@ -222,7 +234,7 @@ export default function Home() {
 
         <section
           className="card reveal"
-          style={revealStyle(1440)}
+          style={revealStyle(1560)}
           aria-labelledby="communication-title"
         >
           <h2 id="communication-title">Communication</h2>

@@ -55,6 +55,9 @@ export default function Sidebar() {
           <Link className="sidebar__link" href="/schedule">
             Weekly Schedule
           </Link>
+          <Link className="sidebar__link" href="/assignments">
+            Assignments
+          </Link>
         </nav>
         <div className="sidebar__spacer" aria-hidden="true" />
         <div className="sidebar__footer">

@@ -2,6 +2,8 @@
 
 :root {
   color-scheme: light dark;
+  --font-body: "Trebuchet MS", Verdana, Tahoma, sans-serif;
+  --font-display: Georgia, "Times New Roman", Times, serif;
   --paper: #f8f3ea;
   --paper-warm: #f1e4d6;
   --ink: #1b1714;
@@ -199,7 +201,7 @@ body {
     radial-gradient(circle at 86% 12%, var(--bg-radial-2) 0%, transparent 45%),
     linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%);
   color: var(--ink);
-  font-family: var(--font-body), "Space Grotesk", system-ui, sans-serif;
+  font-family: var(--font-body, "Trebuchet MS", Verdana, Tahoma, sans-serif);
   position: relative;
   overflow-x: hidden;
 }
@@ -492,7 +494,7 @@ main {
 
 .hero h1 {
   margin: 0;
-  font-family: var(--font-display), "Fraunces", serif;
+  font-family: var(--font-display, Georgia, "Times New Roman", Times, serif);
   font-size: clamp(2.6rem, 5vw, 4.4rem);
   line-height: 0.95;
   animation: title-float 12s ease-in-out infinite;
@@ -576,7 +578,7 @@ main {
 
 .card h2 {
   margin: 0 0 12px;
-  font-family: var(--font-display), "Fraunces", serif;
+  font-family: var(--font-display, Georgia, "Times New Roman", Times, serif);
   font-size: 1.6rem;
   position: relative;
 }
@@ -648,9 +650,92 @@ a:hover {
   gap: 16px;
 }
 
+.assignments {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.assignments-detail {
+  display: grid;
+  gap: 16px;
+}
+
+.assignments-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 16px;
+}
+
+.assignments-list__item {
+  margin: 0;
+}
+
+.assignments-list__link {
+  display: grid;
+  gap: 10px;
+  padding: 16px 18px;
+  background: var(--week-bg);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--week-shadow);
+  text-decoration: none;
+  color: inherit;
+  font-weight: 400;
+  border-bottom: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.assignments-list__link:hover {
+  transform: translateY(-2px);
+  border-color: var(--week-open-border);
+  box-shadow: var(--week-open-shadow);
+  color: var(--ink);
+}
+
+.assignments-list__title {
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.assignments-list__link:hover .assignments-list__title {
+  color: var(--accent-deep);
+  border-color: currentColor;
+}
+
+.assignments-list__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.assignments-list__meta-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.assignments-list__meta-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-deep);
+  background: var(--due-bg);
+  border: 1px solid var(--due-border);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
 .section-title {
   margin: 0;
-  font-family: var(--font-display), "Fraunces", serif;
+  font-family: var(--font-display, Georgia, "Times New Roman", Times, serif);
   font-size: 1.6rem;
 }
 

@@ -4,18 +4,12 @@ import type { CSSProperties } from "react";
 import { useEffect, useRef } from "react";
 
 import { renderTextWithLineBreaks } from "../lib/renderTextWithLineBreaks";
-
-type WeekItem = string | { label: string; href: string };
-type Week = {
-  title: string;
-  dueDate: string;
-  meetingDate: string;
-  meetingAgendaItems?: WeekItem[];
-  assignmentItems?: WeekItem[];
-};
+import type { Week, WeekItem } from "./weeks";
 
 type ScheduleWeeksProps = {
   weeks: Week[];
+  showAgenda?: boolean;
+  showAssignments?: boolean;
 };
 
 const monthNames = [
@@ -132,7 +126,11 @@ const renderWeekItems = (
   );
 };
 
-export default function ScheduleWeeks({ weeks }: ScheduleWeeksProps) {
+export default function ScheduleWeeks({
+  weeks,
+  showAgenda = true,
+  showAssignments = true,
+}: ScheduleWeeksProps) {
   const detailsRefs = useRef<Array<HTMLDetailsElement | null>>([]);
 
   useEffect(() => {
@@ -166,43 +164,52 @@ export default function ScheduleWeeks({ weeks }: ScheduleWeeksProps) {
           >
             <summary>{week.title}</summary>
             <div className="week__content">
-              <div className="week__section">
-                <div className="week__section-header">
-                  <h3 className="week__section-title">Meeting Agenda</h3>
-                  <div className="week__meeting">
-                    <span className="week__meeting-label">Meeting date</span>
-                    <span className="week__meeting-value">
-                      {renderTextWithLineBreaks(week.meetingDate)}
-                    </span>
+              {showAgenda ? (
+                <div className="week__section">
+                  <div className="week__section-header">
+                    <h3 className="week__section-title">Meeting Agenda</h3>
+                    <div className="week__meeting">
+                      <span className="week__meeting-label">Meeting date</span>
+                      <span className="week__meeting-value">
+                        {renderTextWithLineBreaks(week.meetingDate)}
+                      </span>
+                    </div>
                   </div>
+                  {meetingAgendaItems.length > 0 ? (
+                    renderWeekItems(
+                      week.title,
+                      meetingAgendaItems,
+                      "agenda",
+                      "ul",
+                    )
+                  ) : (
+                    <p className="week__empty">No meeting agenda yet.</p>
+                  )}
                 </div>
-                {meetingAgendaItems.length > 0 ? (
-                  renderWeekItems(week.title, meetingAgendaItems, "agenda", "ul")
-                ) : (
-                  <p className="week__empty">No meeting agenda yet.</p>
-                )}
-              </div>
-              <div className="week__section">
-                <div className="week__section-header">
-                  <h3 className="week__section-title">Assignments</h3>
-                  <div className="week__due">
-                    <span className="week__due-label">Due date</span>
-                    <span className="week__due-value">
-                      {renderTextWithLineBreaks(week.dueDate)}
-                    </span>
+              ) : null}
+              {showAssignments ? (
+                <div className="week__section">
+                  <div className="week__section-header">
+                    <h3 className="week__section-title">Assignments</h3>
+                    <div className="week__due">
+                      <span className="week__due-label">Due date</span>
+                      <span className="week__due-value">
+                        {renderTextWithLineBreaks(week.dueDate)}
+                      </span>
+                    </div>
                   </div>
+                  {assignmentItems.length > 0 ? (
+                    renderWeekItems(
+                      week.title,
+                      assignmentItems,
+                      "assignment",
+                      "ol",
+                    )
+                  ) : (
+                    <p className="week__empty">No assignments yet.</p>
+                  )}
                 </div>
-                {assignmentItems.length > 0 ? (
-                  renderWeekItems(
-                    week.title,
-                    assignmentItems,
-                    "assignment",
-                    "ol",
-                  )
-                ) : (
-                  <p className="week__empty">No assignments yet.</p>
-                )}
-              </div>
+              ) : null}
             </div>
           </details>
         );

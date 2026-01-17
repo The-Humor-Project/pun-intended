@@ -294,6 +294,8 @@ main {
   top: 0;
   left: 0;
   height: 100vh;
+  height: 100svh;
+  height: 100dvh;
   z-index: 2;
   width: 240px;
   padding: 28px 18px;

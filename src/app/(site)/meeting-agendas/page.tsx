@@ -1,8 +1,9 @@
-import type { CSSProperties } from "react";
+import type {CSSProperties} from "react";
 
-import type { Tables } from "@/types/supabase";
+import type {Tables} from "@/types/supabase";
 
-import { supabaseServer } from "@/app/lib/supabaseServer";
+import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
+import {supabaseServer} from "@/app/lib/supabaseServer";
 
 export const dynamic = "force-dynamic";
 
@@ -111,7 +112,7 @@ export default async function MeetingAgendasPage() {
                           <div
                             className="assignment-body"
                             dangerouslySetInnerHTML={{
-                              __html: agenda.content,
+                              __html: decodeHtmlEntities(agenda.content),
                             }}
                           />
                         ) : (

@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import {notFound} from "next/navigation";
 
-import type { Tables } from "@/types/supabase";
+import type {Tables} from "@/types/supabase";
 
-import { supabaseServer } from "@/app/lib/supabaseServer";
+import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
+import {supabaseServer} from "@/app/lib/supabaseServer";
 
 export const dynamic = "force-dynamic";
 
@@ -112,7 +113,9 @@ export default async function AssignmentPage({ params }: AssignmentPageProps) {
               {assignment.description ? (
                 <div
                   className="assignment-body"
-                  dangerouslySetInnerHTML={{ __html: assignment.description }}
+                  dangerouslySetInnerHTML={{
+                    __html: decodeHtmlEntities(assignment.description),
+                  }}
                 />
               ) : (
                 <p className="week__empty">No description yet.</p>

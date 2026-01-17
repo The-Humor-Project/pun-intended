@@ -111,7 +111,9 @@ export default function Home() {
             Use the following link to join the virtual meetings on Google Meet:
             <br />
             <br />
-            https://tinyurl.com/columbia-university
+            <a href={"https://www.tinyurl.com/columbia-university"}>
+              https://tinyurl.com/columbia-university
+            </a>
             <br />
             <br />
             Use the 'Weekly Schedule' page on this site for meeting agendas and
@@ -258,8 +260,8 @@ export default function Home() {
             link to join our Slack:
             <br />
             <br />
-            <a href="https://tinyurl.com/the-humor-project-slack">
-              https://tinyurl.com/the-humor-project-slack
+            <a href="https://www.tinyurl.com/the-humor-project-slack">
+              https://www.tinyurl.com/the-humor-project-slack
             </a>
           </p>
         </section>

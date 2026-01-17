@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from "react";
+import {type SyntheticEvent, useCallback, useEffect, useMemo, useState} from "react";
 import Link from "next/link";
-import type { Session } from "@supabase/supabase-js";
+import type {Session} from "@supabase/supabase-js";
 
 import ThemeToggle from "./ThemeToggle";
-import type { Tables } from "@/types/supabase";
-import { supabase } from "@/app/lib/supabaseClient";
+import type {Tables} from "@/types/supabase";
+import {supabase} from "@/app/lib/supabaseClient";
 
 const DESKTOP_QUERY = "(min-width: 901px)";
 
@@ -176,6 +176,9 @@ export default function Sidebar() {
           </Link>
           <Link className="sidebar__link" href="/assignments">
             Assignments
+          </Link>
+          <Link className="sidebar__link" href="/submissions">
+            Submissions
           </Link>
         </nav>
         <div className="sidebar__spacer" aria-hidden="true" />

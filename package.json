@@ -1,14 +1,19 @@
 {
-  "name": "byte-me-lol",
+  "name": "pun-intended",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3004",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "supabase:types": "supabase login && supabase gen types typescript --project-id uckvjiyrgoukgptuuzex --schema public > src/types/supabase.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.58.0",
+    "@tiptap/react": "^2.12.2",
+    "@tiptap/starter-kit": "^2.12.2",
     "next": "16.1.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"

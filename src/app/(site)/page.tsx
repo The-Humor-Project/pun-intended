@@ -38,6 +38,10 @@ export default function Home() {
               A prompt testing application to develop your own humor model.
             </li>
           </ol>
+          <br/>
+          <p className="lead">
+            Project deliverables account for 50% of your final grade.
+          </p>
         </section>
 
         <section
@@ -48,7 +52,8 @@ export default function Home() {
           <h2 id="humor-study-title">Humor study</h2>
           <p className="lead">
             Complete the weekly Humor Study on HumorStudy.org to record your
-            votes. Humor Study completion accounts for 50% of your final grade.
+            votes. <br/>
+            Humor Study completion accounts for 50% of your final grade.
           </p>
         </section>
 
@@ -202,7 +207,7 @@ export default function Home() {
               Each weekly humor study missed results in a 10% reduction in final
               course grade.
             </li>
-            <li>Late submissions to the Humor Study are not accepted.</li>
+            <li>Late submissions to the weekly Humor Study are not accepted.</li>
             <li>
               It is very possible to get an 'A' in this class. There is no curve
               and we do not use norm-referenced grading. Note: Professor Chilton

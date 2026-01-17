@@ -1,10 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 
-import type { Tables } from "@/types/supabase";
+import type {Tables} from "@/types/supabase";
 
-import { createSupabaseServerClient } from "@/app/lib/supabaseServerClient";
-
-type ProfileAdminFlag = Pick<Tables<"profiles">, "is_superadmin">;
+import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
 const getOrigin = (request: NextRequest) => {
   const host = request.headers.get("host") ?? "";
@@ -48,28 +46,17 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { data: profile, error: profileError } = await supabase
+    const { data: profile } = await supabase
       .from("profiles")
-      .select("is_superadmin")
+      .select("first_name, last_name")
       .eq("id", user.id)
-      .single<ProfileAdminFlag>();
+      .single<Pick<Tables<"profiles">, "first_name" | "last_name">>();
 
-    if (profileError) {
-      await supabase.auth.signOut();
-      return NextResponse.redirect(
-        `${origin}/login?error=${encodeURIComponent(
-          "Error checking user profile",
-        )}`,
-      );
-    }
+    const firstName = profile?.first_name?.trim() ?? "";
+    const lastName = profile?.last_name?.trim() ?? "";
 
-    if (!profile || !profile.is_superadmin) {
-      await supabase.auth.signOut();
-      return NextResponse.redirect(
-        `${origin}/login?error=${encodeURIComponent(
-          "Access denied. Superadmin privileges required.",
-        )}`,
-      );
+    if (!firstName || !lastName) {
+      return NextResponse.redirect(new URL("/complete-profile", origin));
     }
 
     return NextResponse.redirect(new URL("/", origin));

@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Session } from "@supabase/supabase-js";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import type {Session} from "@supabase/supabase-js";
+import {useRouter} from "next/navigation";
 
-import { supabase } from "@/app/lib/supabaseClient";
+import {supabase} from "@/app/lib/supabaseClient";
 
 type AdminSessionState = {
   session: Session | null;
@@ -18,6 +19,7 @@ type AdminSessionState = {
 };
 
 export const useAdminSession = (): AdminSessionState => {
+  const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
   const [isBooting, setIsBooting] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -117,7 +119,10 @@ export const useAdminSession = (): AdminSessionState => {
     if (error) {
       setAuthError(error.message);
     }
-  }, []);
+
+    router.push("/login");
+    router.refresh();
+  }, [router]);
 
   return {
     session,

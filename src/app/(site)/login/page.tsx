@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Session } from "@supabase/supabase-js";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import type {Session} from "@supabase/supabase-js";
+import {useRouter} from "next/navigation";
 
-import { supabase } from "@/app/lib/supabaseClient";
+import {supabase} from "@/app/lib/supabaseClient";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
   const [isBooting, setIsBooting] = useState(true);
   const [isWorking, setIsWorking] = useState(false);
@@ -113,7 +115,9 @@ export default function LoginPage() {
     }
 
     setIsWorking(false);
-  }, []);
+    router.push("/login");
+    router.refresh();
+  }, [router]);
 
   const isAuthDisabled = !hasSupabaseConfig || isBooting || isWorking;
 

@@ -2,6 +2,7 @@
 
 import {type SyntheticEvent, useCallback, useEffect, useMemo, useState} from "react";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 import type {Session} from "@supabase/supabase-js";
 
 import ThemeToggle from "./ThemeToggle";
@@ -30,6 +31,7 @@ const listenForMediaChange = (
 };
 
 export default function Sidebar() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [isSuperadmin, setIsSuperadmin] = useState(false);
@@ -140,7 +142,9 @@ export default function Sidebar() {
     }
 
     setIsWorking(false);
-  }, []);
+    router.push("/login");
+    router.refresh();
+  }, [router]);
 
   const accountDetails = useMemo(() => {
     if (!session?.user) {

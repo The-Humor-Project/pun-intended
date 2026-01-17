@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import {redirect} from "next/navigation";
 
 import AdminThemeToggle from "@/app/admin/components/AdminThemeToggle";
 import AdminUiScope from "@/app/admin/components/AdminUiScope";
 import AdminHeaderSignOut from "@/app/admin/components/AdminHeaderSignOut";
-import { createSupabaseServerClient } from "@/app/lib/supabaseServerClient";
+import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
+import type {Tables} from "@/types/supabase";
 
 export const metadata: Metadata = {
   title: "Admin Console | The Humor Project",
@@ -25,10 +26,21 @@ export default async function AdminLayout({
   }
 
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.auth.getSession();
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
 
-  if (error || !data.session) {
+  if (sessionError || !sessionData.session) {
     redirect("/login");
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("is_superadmin")
+    .eq("id", sessionData.session.user.id)
+    .single<Pick<Tables<"profiles">, "is_superadmin">>();
+
+  if (profileError || !profile?.is_superadmin) {
+    redirect("/");
   }
 
   return (

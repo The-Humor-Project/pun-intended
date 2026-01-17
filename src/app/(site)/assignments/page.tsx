@@ -1,7 +1,7 @@
-import type { CSSProperties } from "react";
+import type {CSSProperties} from "react";
 import Link from "next/link";
 
-import { supabaseServer } from "@/app/lib/supabaseServer";
+import {supabaseServer} from "@/app/lib/supabaseServer";
 
 export const dynamic = "force-dynamic";
 
@@ -84,22 +84,27 @@ export default async function AssignmentsPage() {
                   className="assignments-list__item reveal"
                   style={revealDelay(index)}
                 >
-                  <Link
-                    className="assignments-list__link"
-                    href={`/assignment/${assignment.id}`}
-                  >
-                    <span className="assignments-list__title">
-                      {assignment.title}
-                    </span>
-                    <span className="assignments-list__meta">
+                  <div className="assignments-list__card">
+                    <div className="assignments-list__header">
+                      <span className="assignments-list__title">
+                        {assignment.title}
+                      </span>
+                      <Link
+                        className="assignments-list__button"
+                        href={`/assignment/${assignment.id}`}
+                      >
+                        View Details
+                      </Link>
+                    </div>
+                    <div className="assignments-list__meta">
                       <span className="assignments-list__meta-label">
                         Due date
                       </span>
                       <span className="assignments-list__meta-value">
                         {formatDueDate(assignment.due_date_utc)}
                       </span>
-                    </span>
-                  </Link>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>

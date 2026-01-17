@@ -2,6 +2,7 @@
 
 import {type SyntheticEvent, useCallback, useEffect, useMemo, useState} from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {useRouter} from "next/navigation";
 import type {Session} from "@supabase/supabase-js";
 
@@ -201,6 +202,19 @@ export default function Sidebar() {
         <span className="sidebar__toggle-label">Menu</span>
       </summary>
       <div className="sidebar__body">
+        <Link
+          className="sidebar__brand"
+          href="/"
+          aria-label="Columbia University home"
+        >
+          <Image
+            className="sidebar__brand-mark"
+            src="/columbia-crown.svg"
+            alt=""
+            width={56}
+            height={56}
+          />
+        </Link>
         <nav className="sidebar__nav" aria-label="Primary">
           <Link className="sidebar__link" href="/">
             Overview

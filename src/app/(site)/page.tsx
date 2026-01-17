@@ -1,8 +1,21 @@
+import Image from "next/image";
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="page">
       <div className="page__content">
         <header className="hero reveal" style={{ animationDelay: "0ms" }}>
+          <Link className="hero__brand" href="/" aria-label="Columbia University home">
+            <Image
+              className="hero__brand-mark"
+              src="/columbia-crown.svg"
+              alt=""
+              width={80}
+              height={80}
+              priority
+            />
+          </Link>
           <p className="eyebrow">Spring 2026 - Columbia University</p>
           <h1>
             The Humor Project<span className="tm">™</span>

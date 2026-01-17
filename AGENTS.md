@@ -11,4 +11,14 @@
 ## Design
 - The non-admin area of the site should be very round and curvy
 - The admin area of the site should be very sharp, with no round corners
-
+- The non-admin area of the site should use the Columbia color palette.
+- Columbia Blue: #B9D9EB
+- Primary Blue: #1D4F91
+- Secondary Blue 1 #003087
+- Secondary Blue 2 #0077C8
+- Secondary Blue 3 #6CACE4.
+- Access Color 1: #C75000
+- Neutral 1: #222222
+- Neutral 2: #53565A
+- Neutral 3: #D0D0CE
+- Neutral 4: #F0F0F0

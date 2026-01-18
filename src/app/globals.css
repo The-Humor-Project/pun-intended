@@ -2,7 +2,7 @@
 
 :root {
   color-scheme: light dark;
-  --font-body: "Trebuchet MS", Verdana, Tahoma, sans-serif;
+  --font-body: Georgia, "Times New Roman", Times, serif;
   --font-display: Georgia, "Times New Roman", Times, serif;
   --paper: #b9d9eb;
   --paper-warm: #d0d0ce;
@@ -205,7 +205,7 @@ body {
     radial-gradient(circle at 86% 12%, var(--bg-radial-2) 0%, transparent 45%),
     linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%);
   color: var(--ink);
-  font-family: var(--font-body, "Trebuchet MS", Verdana, Tahoma, sans-serif);
+  font-family: var(--font-body, Georgia, "Times New Roman", Times, serif);
   position: relative;
   overflow-x: hidden;
 }
@@ -317,12 +317,12 @@ main {
 }
 
 .sidebar:not([open]) {
-  width: 72px;
+  width: 64px;
   padding: 28px 12px;
 }
 
 .sidebar:not([open]) ~ .app-content {
-  margin-left: 72px;
+  margin-left: 64px;
 }
 
 .sidebar summary::-webkit-details-marker {
@@ -360,6 +360,22 @@ main {
     background-color 0.2s ease;
 }
 
+.sidebar__brand--compact {
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  flex-shrink: 0;
+}
+
+.sidebar__brand--compact:hover {
+  transform: none;
+  border-color: transparent;
+  background-color: transparent;
+}
+
 .sidebar__brand:hover {
   transform: translateY(-1px);
   border-color: var(--sidebar-link-hover-border);
@@ -377,10 +393,69 @@ main {
   display: block;
 }
 
+.sidebar__brand--compact .sidebar__brand-mark {
+  width: 40px;
+  height: 40px;
+}
+
+.logo-swap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.logo-swap--light {
+  display: inline-flex;
+}
+
+.logo-swap--dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .logo-swap--light {
+  display: none;
+}
+
+:root[data-theme="dark"] .logo-swap--dark {
+  display: inline-flex;
+}
+
+:root[data-theme="light"] .logo-swap--light {
+  display: inline-flex;
+}
+
+:root[data-theme="light"] .logo-swap--dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .logo-swap--light {
+    display: none;
+  }
+
+  :root:not([data-theme]) .logo-swap--dark {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 901px) {
+  .sidebar:not([open]) .sidebar__brand--compact {
+    display: none;
+  }
+
+  .sidebar:not([open]) .sidebar__toggle-left {
+    gap: 0;
+  }
+}
+
 .sidebar__toggle {
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
+  justify-content: space-between;
   cursor: pointer;
   list-style: none;
   text-transform: uppercase;
@@ -402,6 +477,12 @@ main {
   height: 12px;
   position: relative;
   flex-shrink: 0;
+}
+
+.sidebar__toggle-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .sidebar__toggle-icon::before {
@@ -941,12 +1022,12 @@ a:hover {
   flex-direction: column;
   background: var(--admin-bg-base-start);
   color: var(--ink);
-  font-family: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-family: var(--font-body, Georgia, "Times New Roman", Times, serif);
   position: relative;
   isolation: isolate;
   color-scheme: dark;
-  --font-body: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  --font-display: "Courier New", Courier, monospace;
+  --font-body: Georgia, "Times New Roman", Times, serif;
+  --font-display: Georgia, "Times New Roman", Times, serif;
   --admin-bg-base-start: #0b0d10;
   --admin-topbar-bg: rgba(11, 13, 16, 0.9);
   --admin-topbar-border: rgba(116, 132, 255, 0.2);
@@ -1068,7 +1149,7 @@ a:hover {
 
 .admin-topbar__title {
   margin: 6px 0 0;
-  font-family: var(--font-display, "Courier New", Courier, monospace);
+  font-family: var(--font-display, Georgia, "Times New Roman", Times, serif);
   font-size: 1.1rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1264,7 +1345,7 @@ a:hover {
 }
 
 .admin-hero h1 {
-  font-family: var(--font-display, "Courier New", Courier, monospace);
+  font-family: var(--font-display, Georgia, "Times New Roman", Times, serif);
   font-size: clamp(2.4rem, 4.6vw, 3.6rem);
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1480,7 +1561,7 @@ a:hover {
 .admin-wysiwyg__content {
   min-height: 140px;
   padding: 12px;
-  font-family: var(--font-body, "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", sans-serif);
+  font-family: var(--font-body, Georgia, "Times New Roman", Times, serif);
   font-size: 0.95rem;
   color: var(--ink);
 }
@@ -1512,7 +1593,7 @@ a:hover {
   border: 1px solid var(--line);
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-body, "Trebuchet MS", Verdana, Tahoma, sans-serif);
+  font-family: var(--font-body, Georgia, "Times New Roman", Times, serif);
   font-size: 0.95rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease,
     background-color 0.2s ease;
@@ -1536,7 +1617,7 @@ a:hover {
   border: 1px solid var(--line);
   background: var(--card);
   color: var(--ink);
-  font-family: var(--font-body, "Trebuchet MS", Verdana, Tahoma, sans-serif);
+  font-family: var(--font-body, Georgia, "Times New Roman", Times, serif);
   font-weight: 600;
   padding: 8px 16px;
   cursor: pointer;
@@ -2397,6 +2478,10 @@ a:hover {
     margin-left: 0;
   }
 
+  .sidebar:not([open]) ~ .app-content {
+    margin-left: 0;
+  }
+
   .sidebar[open],
   .sidebar:not([open]) {
     width: 100%;
@@ -2408,6 +2493,19 @@ a:hover {
 }
 
 @media (max-width: 720px) {
+  .sidebar[open] {
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    width: 100%;
+    padding: 20px 18px 28px;
+    overflow: hidden;
+  }
+
+  .sidebar[open] .sidebar__body {
+    overflow-y: auto;
+  }
+
   .page__content {
     padding: 56px 20px 80px;
   }

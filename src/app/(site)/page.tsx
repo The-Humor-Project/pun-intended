@@ -7,14 +7,26 @@ export default function Home() {
       <div className="page__content">
         <header className="hero reveal" style={{ animationDelay: "0ms" }}>
           <Link className="hero__brand" href="/" aria-label="Columbia University home">
-            <Image
-              className="hero__brand-mark"
-              src="/columbia-crown.svg"
-              alt=""
-              width={80}
-              height={80}
-              priority
-            />
+            <span className="logo-swap logo-swap--light">
+              <Image
+                className="hero__brand-mark"
+                src="/columbia-crown-light.svg"
+                alt=""
+                width={80}
+                height={80}
+                priority
+              />
+            </span>
+            <span className="logo-swap logo-swap--dark">
+              <Image
+                className="hero__brand-mark"
+                src="/columbia-crown-dark.svg"
+                alt=""
+                width={80}
+                height={80}
+                priority
+              />
+            </span>
           </Link>
           <p className="eyebrow">Spring 2026 - Columbia University</p>
           <h1>

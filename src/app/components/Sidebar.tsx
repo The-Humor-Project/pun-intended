@@ -54,6 +54,18 @@ export default function Sidebar() {
     setIsOpen(event.currentTarget.open);
   };
 
+  const handleNavSelection = useCallback(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (window.matchMedia(DESKTOP_QUERY).matches) {
+      return;
+    }
+
+    setIsOpen(false);
+  }, []);
+
   const handleSignIn = useCallback(async () => {
     const client = supabase;
     if (!client) {
@@ -198,34 +210,55 @@ export default function Sidebar() {
   return (
     <details className="sidebar" open={isOpen} onToggle={handleToggle}>
       <summary className="sidebar__toggle">
-        <span className="sidebar__toggle-icon" aria-hidden="true" />
-        <span className="sidebar__toggle-label">Menu</span>
+        <span className="sidebar__toggle-left">
+          <span className="sidebar__toggle-icon" aria-hidden="true" />
+          <span className="sidebar__toggle-label">Menu</span>
+        </span>
+        <span className="sidebar__brand sidebar__brand--compact" aria-hidden="true">
+          <span className="logo-swap logo-swap--light">
+            <Image
+              className="sidebar__brand-mark"
+              src="/columbia-crown-light.svg"
+              alt=""
+              width={56}
+              height={56}
+            />
+          </span>
+          <span className="logo-swap logo-swap--dark">
+            <Image
+              className="sidebar__brand-mark"
+              src="/columbia-crown-dark.svg"
+              alt=""
+              width={56}
+              height={56}
+            />
+          </span>
+        </span>
       </summary>
       <div className="sidebar__body">
-        <Link
-          className="sidebar__brand"
-          href="/"
-          aria-label="Columbia University home"
-        >
-          <Image
-            className="sidebar__brand-mark"
-            src="/columbia-crown.svg"
-            alt=""
-            width={56}
-            height={56}
-          />
-        </Link>
         <nav className="sidebar__nav" aria-label="Primary">
-          <Link className="sidebar__link" href="/">
+          <Link className="sidebar__link" href="/" onClick={handleNavSelection}>
             Overview
           </Link>
-          <Link className="sidebar__link" href="/meeting-agendas">
+          <Link
+            className="sidebar__link"
+            href="/meeting-agendas"
+            onClick={handleNavSelection}
+          >
             Meeting Agendas
           </Link>
-          <Link className="sidebar__link" href="/assignments">
+          <Link
+            className="sidebar__link"
+            href="/assignments"
+            onClick={handleNavSelection}
+          >
             Assignments
           </Link>
-          <Link className="sidebar__link" href="/submissions">
+          <Link
+            className="sidebar__link"
+            href="/submissions"
+            onClick={handleNavSelection}
+          >
             Submissions
           </Link>
         </nav>
@@ -259,6 +292,7 @@ export default function Sidebar() {
                   <Link
                     className="sidebar__account-button sidebar__account-button--center"
                     href="/admin"
+                    onClick={handleNavSelection}
                   >
                     Admin
                   </Link>
@@ -266,6 +300,7 @@ export default function Sidebar() {
                 <Link
                   className="sidebar__account-button sidebar__account-button--center"
                   href="/profile"
+                  onClick={handleNavSelection}
                 >
                   Profile
                 </Link>

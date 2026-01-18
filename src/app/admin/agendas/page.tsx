@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import {type FormEvent, useCallback, useEffect, useMemo, useState} from "react";
 
-import type { Tables } from "@/types/supabase";
+import type {Tables} from "@/types/supabase";
 
 import RichTextEditor from "@/app/admin/components/RichTextEditor";
-import { useAdminSession } from "@/app/admin/lib/useAdminSession";
-import { supabase } from "@/app/lib/supabaseClient";
+import {useAdminSession} from "@/app/admin/lib/useAdminSession";
+import {supabase} from "@/app/lib/supabaseClient";
 
 type MeetingAgendaRow = Tables<"meeting_agendas">;
 type SemesterRow = Tables<"semesters">;
@@ -488,7 +488,7 @@ export default function AgendasAdminPage() {
                           />
                         </label>
 
-                        <label className="admin-field admin-field--full">
+                        <div className="admin-field admin-field--full">
                           <span className="admin-field__label">Content</span>
                           <RichTextEditor
                             value={agenda.content}
@@ -499,7 +499,7 @@ export default function AgendasAdminPage() {
                             }
                             ariaLabel={`Agenda ${agenda.id} content`}
                           />
-                        </label>
+                        </div>
 
                         <label className="admin-field">
                           <span className="admin-field__label">Location</span>
@@ -607,7 +607,7 @@ export default function AgendasAdminPage() {
                   />
                 </label>
 
-                <label className="admin-field admin-field--full">
+                <div className="admin-field admin-field--full">
                   <span className="admin-field__label">Content</span>
                   <RichTextEditor
                     value={newAgenda.content}
@@ -619,7 +619,7 @@ export default function AgendasAdminPage() {
                     }
                     ariaLabel="New agenda content"
                   />
-                </label>
+                </div>
 
                 <label className="admin-field">
                   <span className="admin-field__label">Location</span>

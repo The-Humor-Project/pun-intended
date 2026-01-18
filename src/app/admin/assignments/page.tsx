@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import {type FormEvent, useCallback, useEffect, useMemo, useState} from "react";
 
-import type { Tables } from "@/types/supabase";
+import type {Tables} from "@/types/supabase";
 
 import RichTextEditor from "@/app/admin/components/RichTextEditor";
-import { useAdminSession } from "@/app/admin/lib/useAdminSession";
-import { supabase } from "@/app/lib/supabaseClient";
+import {useAdminSession} from "@/app/admin/lib/useAdminSession";
+import {supabase} from "@/app/lib/supabaseClient";
 
 type AssignmentRow = Tables<"assignments">;
 type SemesterRow = Tables<"semesters">;
@@ -473,7 +473,7 @@ export default function AssignmentsAdminPage() {
                             />
                           </label>
 
-                          <label className="admin-field admin-field--full">
+                          <div className="admin-field admin-field--full">
                             <span className="admin-field__label">
                               Description
                             </span>
@@ -486,7 +486,7 @@ export default function AssignmentsAdminPage() {
                               }
                               ariaLabel={`Assignment ${assignment.id} description`}
                             />
-                          </label>
+                          </div>
 
                           <label className="admin-field">
                             <span className="admin-field__label">Due date</span>
@@ -576,7 +576,7 @@ export default function AssignmentsAdminPage() {
                     />
                   </label>
 
-                  <label className="admin-field admin-field--full">
+                  <div className="admin-field admin-field--full">
                     <span className="admin-field__label">Description</span>
                     <RichTextEditor
                       value={newAssignment.description}
@@ -588,7 +588,7 @@ export default function AssignmentsAdminPage() {
                       }
                       ariaLabel="New assignment description"
                     />
-                  </label>
+                  </div>
 
                   <label className="admin-field">
                     <span className="admin-field__label">Due date</span>

@@ -78,7 +78,8 @@ export default function Home() {
           <p className="lead">
             Complete the weekly Humor Study on HumorStudy.org to record your
             votes. <br/>
-            Humor Study completion accounts for 50% of your final grade.
+            Humor Study completion accounts for 50% of your final grade. <br/>
+            Votes are due by 11:30am ET each Friday. Late submissions are not accepted.
           </p>
         </section>
 
@@ -288,6 +289,17 @@ export default function Home() {
             <a href="https://www.tinyurl.com/the-humor-project-slack">
               https://www.tinyurl.com/the-humor-project-slack
             </a>
+          </p>
+        </section>
+
+        <section
+          className="card reveal"
+          style={{ animationDelay: "1680ms" }}
+          aria-labelledby="time-zone-title"
+        >
+          <h2 id="time-zone-title">Time Zone</h2>
+          <p className="lead">
+            All due dates and meeting times are in the Eastern Time zone.
           </p>
         </section>
       </div>

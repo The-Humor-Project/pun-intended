@@ -1,6 +1,6 @@
 "use client";
 
-import {type SyntheticEvent, useCallback, useEffect, useMemo, useState} from "react";
+import {type SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
@@ -34,6 +34,7 @@ const listenForMediaChange = (
 export default function Sidebar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [isSuperadmin, setIsSuperadmin] = useState(false);
   const [isBooting, setIsBooting] = useState(true);
@@ -41,6 +42,7 @@ export default function Sidebar() {
   const [authError, setAuthError] = useState<string | null>(null);
 
   const hasSupabaseConfig = Boolean(supabase);
+  const accountMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(DESKTOP_QUERY);
@@ -66,6 +68,15 @@ export default function Sidebar() {
     setIsOpen(false);
   }, []);
 
+  const handleAccountToggle = useCallback(() => {
+    setIsAccountOpen((prev) => !prev);
+  }, []);
+
+  const handleAccountAction = useCallback(() => {
+    setIsAccountOpen(false);
+    handleNavSelection();
+  }, [handleNavSelection]);
+
   const handleSignIn = useCallback(async () => {
     const client = supabase;
     if (!client) {
@@ -80,6 +91,7 @@ export default function Sidebar() {
 
     const redirectUrl = new URL("/auth/callback", siteUrl);
 
+    setIsAccountOpen(false);
     setIsWorking(true);
     setAuthError(null);
 
@@ -175,6 +187,7 @@ export default function Sidebar() {
       return;
     }
 
+    setIsAccountOpen(false);
     setIsWorking(true);
     setAuthError(null);
 
@@ -188,6 +201,41 @@ export default function Sidebar() {
     router.push("/login");
     router.refresh();
   }, [router]);
+
+  useEffect(() => {
+    if (!isAccountOpen) {
+      return;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (
+        accountMenuRef.current &&
+        !accountMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsAccountOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsAccountOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isAccountOpen]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsAccountOpen(false);
+    }
+  }, [isOpen]);
 
   const accountDetails = useMemo(() => {
     if (!session?.user) {
@@ -204,6 +252,12 @@ export default function Sidebar() {
 
     return { displayName, secondary };
   }, [session]);
+
+  const accountSummary = accountDetails
+    ? accountDetails.displayName
+    : hasSupabaseConfig
+      ? "Not signed in."
+      : "Sign in unavailable.";
 
   const isAuthActionDisabled = isBooting || isWorking;
 
@@ -264,65 +318,91 @@ export default function Sidebar() {
         </nav>
         <div className="sidebar__spacer" aria-hidden="true" />
         <div className="sidebar__footer">
-          <ThemeToggle />
-          <div className="sidebar__account" aria-live="polite">
-            <span className="sidebar__account-label">Account</span>
-            {accountDetails ? (
-              <div className="sidebar__account-details">
-                <span className="sidebar__account-name">
-                  {accountDetails.displayName}
-                </span>
-                {accountDetails.secondary ? (
-                  <span className="sidebar__account-email">
-                    {accountDetails.secondary}
-                  </span>
-                ) : null}
-              </div>
-            ) : (
-              <span className="sidebar__account-empty">
-                {hasSupabaseConfig ? "Not signed in." : "Sign in unavailable."}
+          <div className="sidebar__account" ref={accountMenuRef}>
+            <button
+              className="sidebar__account-trigger"
+              type="button"
+              onClick={handleAccountToggle}
+              aria-expanded={isAccountOpen}
+              aria-controls="sidebar-account-menu"
+              aria-haspopup="true"
+            >
+              <span className="sidebar__account-label">Account</span>
+              <span className="sidebar__account-summary" aria-live="polite">
+                {accountSummary}
               </span>
-            )}
-            {authError ? (
-              <span className="sidebar__account-error">{authError}</span>
-            ) : null}
-            {session ? (
-              <>
-                {isSuperadmin ? (
+              <span
+                className="sidebar__account-trigger-icon"
+                aria-hidden="true"
+              />
+            </button>
+            <div
+              id="sidebar-account-menu"
+              className={`sidebar__account-popout${
+                isAccountOpen ? " is-open" : ""
+              }`}
+              role="region"
+              aria-label="Account menu"
+              aria-hidden={!isAccountOpen}
+            >
+              {accountDetails ? (
+                <div className="sidebar__account-details">
+                  <span className="sidebar__account-name">
+                    {accountDetails.displayName}
+                  </span>
+                  {accountDetails.secondary ? (
+                    <span className="sidebar__account-email">
+                      {accountDetails.secondary}
+                    </span>
+                  ) : null}
+                </div>
+              ) : (
+                <span className="sidebar__account-empty">
+                  {accountSummary}
+                </span>
+              )}
+                {authError ? (
+                  <span className="sidebar__account-error">{authError}</span>
+                ) : null}
+              <ThemeToggle />
+              {session ? (
+                <>
+                  {isSuperadmin ? (
+                    <Link
+                      className="sidebar__account-button sidebar__account-button--center"
+                      href="/admin"
+                      onClick={handleAccountAction}
+                    >
+                      Admin
+                    </Link>
+                  ) : null}
                   <Link
                     className="sidebar__account-button sidebar__account-button--center"
-                    href="/admin"
-                    onClick={handleNavSelection}
+                    href="/profile"
+                    onClick={handleAccountAction}
                   >
-                    Admin
+                    Profile
                   </Link>
-                ) : null}
-                <Link
-                  className="sidebar__account-button sidebar__account-button--center"
-                  href="/profile"
-                  onClick={handleNavSelection}
-                >
-                  Profile
-                </Link>
+                  <button
+                    type="button"
+                    className="sidebar__account-button"
+                    onClick={handleSignOut}
+                    disabled={isAuthActionDisabled}
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
                 <button
                   type="button"
                   className="sidebar__account-button"
-                  onClick={handleSignOut}
+                  onClick={handleSignIn}
                   disabled={isAuthActionDisabled}
                 >
-                  Sign Out
+                  Sign In
                 </button>
-              </>
-            ) : (
-              <button
-                type="button"
-                className="sidebar__account-button"
-                onClick={handleSignIn}
-                disabled={isAuthActionDisabled}
-              >
-                Sign In
-              </button>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

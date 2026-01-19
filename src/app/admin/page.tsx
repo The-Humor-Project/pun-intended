@@ -47,6 +47,25 @@ export default function AdminHomePage() {
         <section className="card admin-section">
           <div className="admin-section__header">
             <div>
+              <h2>Documentation</h2>
+              <p className="admin-section__meta">
+                Publish course documentation and reference material.
+              </p>
+            </div>
+          </div>
+          <div className="admin-panel__actions">
+            <Link
+              className="admin-button admin-button--primary"
+              href="/admin/documentations"
+            >
+              Manage documentation
+            </Link>
+          </div>
+        </section>
+
+        <section className="card admin-section">
+          <div className="admin-section__header">
+            <div>
               <h2>Semesters</h2>
               <p className="admin-section__meta">
                 Update semester names and create new terms.

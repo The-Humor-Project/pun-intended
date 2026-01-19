@@ -52,6 +52,30 @@ export type Database = {
           },
         ]
       }
+      documentations: {
+        Row: {
+          content: string
+          created_datetime_utc: string
+          id: number
+          modified_datetime_utc: string | null
+          title: string
+        }
+        Insert: {
+          content: string
+          created_datetime_utc?: string
+          id?: number
+          modified_datetime_utc?: string | null
+          title: string
+        }
+        Update: {
+          content?: string
+          created_datetime_utc?: string
+          id?: number
+          modified_datetime_utc?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       meeting_agendas: {
         Row: {
           content: string

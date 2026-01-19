@@ -1,7 +1,8 @@
 import type {CSSProperties} from "react";
 import Link from "next/link";
+import {redirect} from "next/navigation";
 
-import {supabaseServer} from "@/app/lib/supabaseServer";
+import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
 export const dynamic = "force-dynamic";
 
@@ -26,22 +27,22 @@ const formatDueDate = (value: string) => {
 };
 
 export default async function AssignmentsPage() {
-  if (!supabaseServer) {
-    return (
-      <main className="page">
-        <div className="page__content">
-          <section className="card assignments" aria-labelledby="assignments-title">
-            <h2 id="assignments-title" className="section-title">
-              Assignments
-            </h2>
-            <p className="week__empty">Assignments are not available yet.</p>
-          </section>
-        </div>
-      </main>
-    );
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    redirect("/login");
   }
 
-  const { data, error } = await supabaseServer
+  const supabase = await createSupabaseServerClient();
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError || !sessionData.session) {
+    redirect("/login");
+  }
+
+  const { data, error } = await supabase
     .from("assignments")
     .select("id, title, due_date_utc")
     .order("due_date_utc", { ascending: true });

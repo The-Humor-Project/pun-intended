@@ -1,10 +1,10 @@
 import Link from "next/link";
-import {notFound} from "next/navigation";
+import {notFound, redirect} from "next/navigation";
 
 import type {Tables} from "@/types/supabase";
 
 import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
-import {supabaseServer} from "@/app/lib/supabaseServer";
+import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
 export const dynamic = "force-dynamic";
 
@@ -27,29 +27,29 @@ const formatDueDate = (value: string) => {
 
 export default async function AssignmentPage({ params }: AssignmentPageProps) {
   const { id } = await params;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    redirect("/login");
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError || !sessionData.session) {
+    redirect("/login");
+  }
+
   const assignmentId = Number(id);
 
   if (!Number.isFinite(assignmentId)) {
     notFound();
   }
 
-  if (!supabaseServer) {
-    return (
-      <main className="page assignment-week">
-        <div className="page__content">
-          <section className="card assignments-detail">
-            <h2 className="section-title">Assignments</h2>
-            <p className="week__empty">Assignment details are unavailable.</p>
-            <Link className="assignments-list__meta-label" href="/assignments">
-              Back to assignments
-            </Link>
-          </section>
-        </div>
-      </main>
-    );
-  }
-
-  const { data, error } = await supabaseServer
+  const { data, error } = await supabase
     .from("assignments")
     .select("*")
     .eq("id", assignmentId)

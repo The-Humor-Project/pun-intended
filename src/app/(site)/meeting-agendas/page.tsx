@@ -1,9 +1,10 @@
 import type {CSSProperties} from "react";
+import {redirect} from "next/navigation";
 
 import type {Tables} from "@/types/supabase";
 
 import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
-import {supabaseServer} from "@/app/lib/supabaseServer";
+import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
 export const dynamic = "force-dynamic";
 
@@ -32,22 +33,22 @@ const stripHtml = (value: string) =>
 const hasRichTextContent = (value: string) => stripHtml(value).length > 0;
 
 export default async function MeetingAgendasPage() {
-  if (!supabaseServer) {
-    return (
-      <main className="page">
-        <div className="page__content">
-          <section className="card meeting-agendas" aria-labelledby="agendas-title">
-            <h2 id="agendas-title" className="section-title">
-              Meeting Agendas
-            </h2>
-            <p className="week__empty">Meeting agendas are not available yet.</p>
-          </section>
-        </div>
-      </main>
-    );
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    redirect("/login");
   }
 
-  const { data, error } = await supabaseServer
+  const supabase = await createSupabaseServerClient();
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError || !sessionData.session) {
+    redirect("/login");
+  }
+
+  const { data, error } = await supabase
     .from("meeting_agendas")
     .select("id, title, meeting_datetime_utc, content, location")
     .order("meeting_datetime_utc", { ascending: true });

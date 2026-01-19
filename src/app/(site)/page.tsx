@@ -142,8 +142,8 @@ export default function Home() {
             </a>
             <br />
             <br />
-            Use the 'Weekly Schedule' page on this site for meeting agendas and
-            assignments
+            Use the 'Meeting Agendas' and 'Assignments' pages on
+            this site for meeting agendas and assignments
           </p>
         </section>
 

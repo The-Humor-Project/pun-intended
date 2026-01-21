@@ -636,6 +636,12 @@ main {
   color: currentColor;
 }
 
+@supports (-webkit-touch-callout: none) {
+  .timezone-select__input {
+    font-size: 16px;
+  }
+}
+
 .timezone-select__input::placeholder {
   color: var(--muted);
 }

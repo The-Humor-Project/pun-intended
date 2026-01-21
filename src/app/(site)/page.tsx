@@ -267,11 +267,11 @@ export default function Home() {
         <section
           className="card reveal"
           style={{ animationDelay: "1440ms" }}
-          aria-labelledby="lecture-recordings-title"
+          aria-labelledby="meeting-recordings-title"
         >
-          <h2 id="lecture-recordings-title">Lecture recordings</h2>
+          <h2 id="meeting-recordings-title">Meeting recordings</h2>
           <p className="lead">
-            Lectures are not recorded, but meeting notes will be provided.
+            Meetings are not recorded, but meeting notes will be provided.
           </p>
         </section>
 

@@ -291,17 +291,6 @@ export default function Home() {
             </a>
           </p>
         </section>
-
-        <section
-          className="card reveal"
-          style={{ animationDelay: "1680ms" }}
-          aria-labelledby="time-zone-title"
-        >
-          <h2 id="time-zone-title">Time Zone</h2>
-          <p className="lead">
-            All due dates and meeting times are in the Eastern Time zone.
-          </p>
-        </section>
       </div>
     </main>
   );

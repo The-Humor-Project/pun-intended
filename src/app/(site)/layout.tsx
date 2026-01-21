@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 
 import Sidebar from "@/app/components/Sidebar";
+import {TimeZoneProvider} from "@/app/components/TimeZoneContext";
 
 export const metadata: Metadata = {
   title: "The Humor Project",
@@ -13,9 +14,11 @@ export default function SiteLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="app-shell">
-      <Sidebar />
-      <div className="app-content">{children}</div>
-    </div>
+    <TimeZoneProvider>
+      <div className="app-shell">
+        <Sidebar />
+        <div className="app-content">{children}</div>
+      </div>
+    </TimeZoneProvider>
   );
 }

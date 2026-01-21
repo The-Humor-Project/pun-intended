@@ -1,7 +1,9 @@
 import type {CSSProperties} from "react";
 import Link from "next/link";
+import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
 
+import {resolveTimeZone} from "@/app/lib/resolveTimeZone";
 import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
 export const dynamic = "force-dynamic";
@@ -16,14 +18,24 @@ const revealDelay = (index: number): CSSProperties => ({
   animationDelay: `${80 + index * 60}ms`,
 });
 
-const formatDueDate = (value: string) => {
+const formatDueDate = (value: string, timeZone?: string) => {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
     return value;
   }
 
-  const weekday = date.toLocaleDateString(undefined, { weekday: "long" });
-  return `${weekday}, ${date.toLocaleString()}`;
+  const weekdayOptions: Intl.DateTimeFormatOptions = { weekday: "long" };
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    timeZoneName: "short",
+  };
+
+  if (timeZone) {
+    weekdayOptions.timeZone = timeZone;
+    dateTimeOptions.timeZone = timeZone;
+  }
+
+  const weekday = date.toLocaleDateString(undefined, weekdayOptions);
+  return `${weekday}, ${date.toLocaleString(undefined, dateTimeOptions)}`;
 };
 
 export default async function AssignmentsPage() {
@@ -33,6 +45,9 @@ export default async function AssignmentsPage() {
   if (!supabaseUrl || !supabaseAnonKey) {
     redirect("/login");
   }
+
+  const cookieStore = await cookies();
+  const timeZone = resolveTimeZone(cookieStore.get("timezone")?.value);
 
   const supabase = await createSupabaseServerClient();
   const { data: sessionData, error: sessionError } =
@@ -102,7 +117,7 @@ export default async function AssignmentsPage() {
                         Due date
                       </span>
                       <span className="assignments-list__meta-value">
-                        {formatDueDate(assignment.due_date_utc)}
+                        {formatDueDate(assignment.due_date_utc, timeZone)}
                       </span>
                     </div>
                   </div>

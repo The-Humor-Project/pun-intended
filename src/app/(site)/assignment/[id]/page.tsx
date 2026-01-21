@@ -1,9 +1,11 @@
 import Link from "next/link";
+import {cookies} from "next/headers";
 import {notFound, redirect} from "next/navigation";
 
 import type {Tables} from "@/types/supabase";
 
 import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
+import {resolveTimeZone} from "@/app/lib/resolveTimeZone";
 import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
 export const dynamic = "force-dynamic";
@@ -16,13 +18,18 @@ type AssignmentPageProps = {
   }>;
 };
 
-const formatDueDate = (value: string) => {
+const formatDueDate = (value: string, timeZone?: string) => {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
     return value;
   }
 
-  return date.toLocaleString();
+  const options: Intl.DateTimeFormatOptions = { timeZoneName: "short" };
+  if (timeZone) {
+    options.timeZone = timeZone;
+  }
+
+  return date.toLocaleString(undefined, options);
 };
 
 export default async function AssignmentPage({ params }: AssignmentPageProps) {
@@ -34,6 +41,9 @@ export default async function AssignmentPage({ params }: AssignmentPageProps) {
   if (!supabaseUrl || !supabaseAnonKey) {
     redirect("/login");
   }
+
+  const cookieStore = await cookies();
+  const timeZone = resolveTimeZone(cookieStore.get("timezone")?.value);
 
   const supabase = await createSupabaseServerClient();
   const { data: sessionData, error: sessionError } =
@@ -106,7 +116,7 @@ export default async function AssignmentPage({ params }: AssignmentPageProps) {
                 <div className="week__due">
                   <span className="week__due-label">Due date</span>
                   <span className="week__due-value">
-                    {formatDueDate(assignment.due_date_utc)}
+                    {formatDueDate(assignment.due_date_utc, timeZone)}
                   </span>
                 </div>
               </div>

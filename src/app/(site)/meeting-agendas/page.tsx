@@ -1,9 +1,11 @@
 import type {CSSProperties} from "react";
+import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
 
 import type {Tables} from "@/types/supabase";
 
 import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
+import {resolveTimeZone} from "@/app/lib/resolveTimeZone";
 import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
 export const dynamic = "force-dynamic";
@@ -17,14 +19,24 @@ const revealDelay = (index: number): CSSProperties => ({
   animationDelay: `${80 + index * 60}ms`,
 });
 
-const formatMeetingDate = (value: string) => {
+const formatMeetingDate = (value: string, timeZone?: string) => {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
     return value;
   }
 
-  const weekday = date.toLocaleDateString(undefined, { weekday: "long" });
-  return `${weekday}, ${date.toLocaleString()}`;
+  const weekdayOptions: Intl.DateTimeFormatOptions = { weekday: "long" };
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    timeZoneName: "short",
+  };
+
+  if (timeZone) {
+    weekdayOptions.timeZone = timeZone;
+    dateTimeOptions.timeZone = timeZone;
+  }
+
+  const weekday = date.toLocaleDateString(undefined, weekdayOptions);
+  return `${weekday}, ${date.toLocaleString(undefined, dateTimeOptions)}`;
 };
 
 const stripHtml = (value: string) =>
@@ -39,6 +51,9 @@ export default async function MeetingAgendasPage() {
   if (!supabaseUrl || !supabaseAnonKey) {
     redirect("/login");
   }
+
+  const cookieStore = await cookies();
+  const timeZone = resolveTimeZone(cookieStore.get("timezone")?.value);
 
   const supabase = await createSupabaseServerClient();
   const { data: sessionData, error: sessionError } =
@@ -105,7 +120,10 @@ export default async function MeetingAgendasPage() {
                               Meeting date
                             </span>
                             <span className="week__meeting-value">
-                              {formatMeetingDate(agenda.meeting_datetime_utc)}
+                              {formatMeetingDate(
+                                agenda.meeting_datetime_utc,
+                                timeZone,
+                              )}
                             </span>
                           </div>
                         </div>

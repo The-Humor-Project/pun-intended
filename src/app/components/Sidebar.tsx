@@ -7,6 +7,7 @@ import {useRouter} from "next/navigation";
 import type {Session} from "@supabase/supabase-js";
 
 import ThemeToggle from "./ThemeToggle";
+import TimezoneSelect from "./TimezoneSelect";
 import type {Tables} from "@/types/supabase";
 import {supabase} from "@/app/lib/supabaseClient";
 
@@ -368,10 +369,11 @@ export default function Sidebar() {
                   {accountSummary}
                 </span>
               )}
-                {authError ? (
+              {authError ? (
                   <span className="sidebar__account-error">{authError}</span>
                 ) : null}
               <ThemeToggle />
+              <TimezoneSelect />
               {session ? (
                 <>
                   {isSuperadmin ? (

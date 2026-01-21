@@ -37,6 +37,28 @@ const getTimeZoneOptions = (systemTimeZone: string) => {
 const ensureTimeZoneOption = (options: string[], timeZone: string) =>
   options.includes(timeZone) ? options : [timeZone, ...options];
 
+const getInitialTimeZoneState = () => {
+  const systemTimeZone = getSystemTimeZone();
+
+  if (typeof window === "undefined") {
+    return {
+      timeZone: systemTimeZone,
+      timeZoneOptions: getTimeZoneOptions(systemTimeZone),
+    };
+  }
+
+  const storedTimeZone = window.localStorage.getItem(TIMEZONE_STORAGE_KEY);
+  const initialTimeZone = storedTimeZone || systemTimeZone;
+
+  return {
+    timeZone: initialTimeZone,
+    timeZoneOptions: ensureTimeZoneOption(
+      getTimeZoneOptions(systemTimeZone),
+      initialTimeZone,
+    ),
+  };
+};
+
 const setTimeZoneCookie = (timeZone: string) => {
   const encoded = encodeURIComponent(timeZone);
   document.cookie = `${TIMEZONE_COOKIE_NAME}=${encoded}; path=/; max-age=31536000; samesite=lax`;
@@ -49,24 +71,20 @@ const fallbackValue: TimeZoneContextValue = {
 };
 
 export function TimeZoneProvider({children}: {children: ReactNode}) {
-  const [timeZone, setTimeZoneState] = useState(FALLBACK_TIMEZONE);
-  const [timeZoneOptions, setTimeZoneOptions] = useState<string[]>([
-    FALLBACK_TIMEZONE,
-  ]);
+  const [state, setState] = useState(getInitialTimeZoneState);
+  const {timeZone, timeZoneOptions} = state;
 
   useEffect(() => {
-    const systemTimeZone = getSystemTimeZone();
-    const storedTimeZone = window.localStorage.getItem(TIMEZONE_STORAGE_KEY);
-    const initialTimeZone = storedTimeZone || systemTimeZone;
-    const options = ensureTimeZoneOption(
-      getTimeZoneOptions(systemTimeZone),
-      initialTimeZone,
-    );
+    if (typeof window === "undefined") {
+      return;
+    }
 
-    setTimeZoneOptions(options);
-    setTimeZoneState(initialTimeZone);
-    setTimeZoneCookie(initialTimeZone);
-  }, []);
+    if (!window.localStorage.getItem(TIMEZONE_STORAGE_KEY)) {
+      window.localStorage.setItem(TIMEZONE_STORAGE_KEY, timeZone);
+    }
+
+    setTimeZoneCookie(timeZone);
+  }, [timeZone]);
 
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
@@ -75,8 +93,10 @@ export function TimeZoneProvider({children}: {children: ReactNode}) {
       }
 
       const nextTimeZone = event.newValue || getSystemTimeZone();
-      setTimeZoneState(nextTimeZone);
-      setTimeZoneOptions((prev) => ensureTimeZoneOption(prev, nextTimeZone));
+      setState((prev) => ({
+        timeZone: nextTimeZone,
+        timeZoneOptions: ensureTimeZoneOption(prev.timeZoneOptions, nextTimeZone),
+      }));
       setTimeZoneCookie(nextTimeZone);
     };
 
@@ -85,8 +105,10 @@ export function TimeZoneProvider({children}: {children: ReactNode}) {
   }, []);
 
   const setTimeZone = (nextTimeZone: string) => {
-    setTimeZoneState(nextTimeZone);
-    setTimeZoneOptions((prev) => ensureTimeZoneOption(prev, nextTimeZone));
+    setState((prev) => ({
+      timeZone: nextTimeZone,
+      timeZoneOptions: ensureTimeZoneOption(prev.timeZoneOptions, nextTimeZone),
+    }));
     window.localStorage.setItem(TIMEZONE_STORAGE_KEY, nextTimeZone);
     setTimeZoneCookie(nextTimeZone);
   };

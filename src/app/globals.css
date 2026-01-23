@@ -1180,6 +1180,7 @@ main {
 .list {
   margin: 0;
   padding-left: 1.2rem;
+  list-style-type: disc;
   list-style-position: outside;
 }
 
@@ -1794,6 +1795,15 @@ a:hover {
 .admin-wysiwyg__content ol {
   margin: 0 0 0.6rem 1.2rem;
   padding: 0;
+  list-style-position: outside;
+}
+
+.admin-wysiwyg__content ul {
+  list-style-type: disc;
+}
+
+.admin-wysiwyg__content ol {
+  list-style-type: decimal;
 }
 
 .admin-input,
@@ -2229,6 +2239,15 @@ a:hover {
 .assignment-body ol {
   margin: 0 0 0.75rem 1.2rem;
   padding: 0;
+  list-style-position: outside;
+}
+
+.assignment-body ul {
+  list-style-type: disc;
+}
+
+.assignment-body ol {
+  list-style-type: decimal;
 }
 
 .assignment-body li + li {
@@ -2307,10 +2326,15 @@ a:hover {
   display: grid;
   gap: 0.35rem;
   color: var(--muted);
+  list-style-position: outside;
 }
 
 .week ol {
-  list-style: decimal;
+  list-style-type: decimal;
+}
+
+.week ul {
+  list-style-type: disc;
 }
 
 .week ul li,

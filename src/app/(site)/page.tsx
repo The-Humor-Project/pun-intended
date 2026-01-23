@@ -79,7 +79,8 @@ export default function Home() {
             Complete the weekly Humor Study on HumorStudy.org to record your
             votes. <br/>
             Humor Study completion accounts for 50% of your final grade. <br/>
-            Votes are due by 11:30am ET each Friday. Late submissions are not accepted.
+            Voting opens at 5pm ET each Friday. <br/>
+            Votes are due by 11:59pm ET that night. Late submissions are not accepted.
           </p>
         </section>
 
@@ -243,6 +244,21 @@ export default function Home() {
               Barack Obama when he took UI Design.
             </li>
           </ul>
+        </section>
+
+        <section
+            className="card reveal"
+            style={{ animationDelay: "1560ms" }}
+            aria-labelledby="collaboration-title"
+        >
+          <h2 id="collaboration-title">Collaboration</h2>
+          <p className="lead">
+            The assignments in this class are designed to be done individually.
+            <br />
+            <br />
+            Feel free to collaborate with others, but you are responsible for
+            your own deliverables.
+          </p>
         </section>
 
         <section

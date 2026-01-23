@@ -80,7 +80,7 @@ export default function Home() {
             votes. <br/>
             Humor Study completion accounts for 50% of your final grade. <br/>
             Voting opens at 5pm ET each Friday. <br/>
-            Votes are due by 11:59pm ET that night. Late submissions are not accepted.
+            Votes are due by 11:59pm ET on Sunday. Late submissions are not accepted.
           </p>
         </section>
 

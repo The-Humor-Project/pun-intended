@@ -21,7 +21,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient({
+    allowSetCookies: true,
+  });
   const { error: exchangeError } =
     await supabase.auth.exchangeCodeForSession(code);
 

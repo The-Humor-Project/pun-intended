@@ -6,9 +6,14 @@ import {cookies} from "next/headers";
 
 import type {Database} from "@/types/supabase";
 
-export const createSupabaseServerClient = async (): Promise<
-  SupabaseClient<Database>
-> => {
+type SupabaseServerClientOptions = {
+  allowSetCookies?: boolean;
+};
+
+export const createSupabaseServerClient = async (
+  options: SupabaseServerClientOptions = {},
+): Promise<SupabaseClient<Database>> => {
+  const { allowSetCookies = false } = options;
   const cookieStore = await cookies();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -25,6 +30,10 @@ export const createSupabaseServerClient = async (): Promise<
         return cookieStore.getAll();
       },
       setAll(cookiesToSet: Parameters<SetAllCookies>[0]) {
+        if (!allowSetCookies) {
+          return;
+        }
+
         cookiesToSet.forEach(({ name, value, options }) => {
           cookieStore.set(name, value, options);
         });

@@ -1,9 +1,11 @@
 import Link from "next/link";
+import {cookies} from "next/headers";
 import {notFound, redirect} from "next/navigation";
 
 import type {Tables} from "@/types/supabase";
 
 import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
+import {resolveTimeZone} from "@/app/lib/resolveTimeZone";
 import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +18,7 @@ type DocumentationPageProps = {
   }>;
 };
 
-const formatTimestamp = (value: string | null) => {
+const formatTimestamp = (value: string | null, timeZone?: string) => {
   if (!value) {
     return "Unknown";
   }
@@ -27,7 +29,13 @@ const formatTimestamp = (value: string | null) => {
     return value;
   }
 
-  return date.toLocaleString();
+  const options: Intl.DateTimeFormatOptions = { timeZoneName: "short" };
+
+  if (timeZone) {
+    options.timeZone = timeZone;
+  }
+
+  return date.toLocaleString(undefined, options);
 };
 
 const stripHtml = (value: string) =>
@@ -46,6 +54,9 @@ export default async function DocumentationPage({
   if (!supabaseUrl || !supabaseAnonKey) {
     redirect("/login");
   }
+
+  const cookieStore = await cookies();
+  const timeZone = resolveTimeZone(cookieStore.get("timezone")?.value);
 
   const supabase = await createSupabaseServerClient();
   const { data: sessionData, error: sessionError } =
@@ -118,7 +129,7 @@ export default async function DocumentationPage({
           <div className="assignments-list__meta">
             <span className="assignments-list__meta-label">Last updated</span>
             <span className="assignments-list__meta-value">
-              {formatTimestamp(updatedAt)}
+              {formatTimestamp(updatedAt, timeZone)}
             </span>
           </div>
           {hasRichTextContent(documentation.content) ? (

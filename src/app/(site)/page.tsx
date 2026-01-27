@@ -347,6 +347,26 @@ export default function Home() {
 
         <section
           className="card reveal"
+          style={{ animationDelay: "780ms" }}
+          aria-labelledby="office-hours-title"
+        >
+          <h2 id="office-hours-title">Office Hours</h2>
+          <p className="lead">
+            Drop in to office hours using the following calendar:
+            <br />
+            <br />
+            <a
+              href="https://calendar.google.com/calendar/u/0?cid=Y19iMGNhZDNmMjVmMjNmYmNhMzVjNmM3ZmZhOTMwYTUyMTdlNzRiNWIwM2EwZWYxM2Q0MGI5YTRhMDZhYmE3MjU1QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Office Hours Calendar
+            </a>
+          </p>
+        </section>
+
+        <section
+          className="card reveal"
           style={{ animationDelay: "840ms" }}
           aria-labelledby="exams-title"
         >

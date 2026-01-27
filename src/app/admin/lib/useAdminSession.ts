@@ -5,6 +5,11 @@ import type {Session} from "@supabase/supabase-js";
 import {useRouter} from "next/navigation";
 
 import {supabase} from "@/app/lib/supabaseClient";
+import {
+    clearSupabaseAuthCookiesInBrowser,
+    getSupabaseStorageKey,
+    isInvalidRefreshTokenError,
+} from "@/app/lib/supabaseAuthStorage";
 
 type AdminSessionState = {
   session: Session | null;
@@ -44,6 +49,16 @@ export const useAdminSession = (): AdminSessionState => {
     }
 
     let mounted = true;
+    const storageKey = getSupabaseStorageKey(process.env.NEXT_PUBLIC_SUPABASE_URL);
+
+    const recoverFromInvalidRefreshToken = async () => {
+      clearSupabaseAuthCookiesInBrowser(storageKey);
+      try {
+        await client.auth.signOut();
+      } catch {
+        // No-op: we already cleared client-side cookies.
+      }
+    };
 
     const init = async () => {
       const { data, error } = await client.auth.getSession();
@@ -53,7 +68,13 @@ export const useAdminSession = (): AdminSessionState => {
       }
 
       if (error) {
-        setAuthError(error.message);
+        if (isInvalidRefreshTokenError(error)) {
+          await recoverFromInvalidRefreshToken();
+          setSession(null);
+          setAuthError("Your session expired. Please sign in again.");
+        } else {
+          setAuthError(error.message);
+        }
       }
 
       setSession(data.session ?? null);

@@ -165,6 +165,45 @@ export type Database = {
         }
         Relationships: []
       }
+      submissions: {
+        Row: {
+          assignment_id: number
+          content: string | null
+          created_datetime_utc: string
+          id: number
+          profile_id: string
+        }
+        Insert: {
+          assignment_id: number
+          content?: string | null
+          created_datetime_utc?: string
+          id?: number
+          profile_id: string
+        }
+        Update: {
+          assignment_id?: number
+          content?: string | null
+          created_datetime_utc?: string
+          id?: number
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submissions_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "assignments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submissions_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

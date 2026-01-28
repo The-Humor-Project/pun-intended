@@ -332,17 +332,17 @@ export default function Sidebar() {
           </Link>
           <Link
             className="sidebar__link"
-            href="/documentations"
-            onClick={handleNavSelection}
-          >
-            Documentation
-          </Link>
-          <Link
-            className="sidebar__link"
             href="/submissions"
             onClick={handleNavSelection}
           >
             Submissions
+          </Link>
+          <Link
+            className="sidebar__link"
+            href="/documentations"
+            onClick={handleNavSelection}
+          >
+            Documentation
           </Link>
         </nav>
         <div className="sidebar__spacer" aria-hidden="true" />

@@ -274,9 +274,9 @@ export default function Home() {
           <h2 id="humor-study-title">Humor study</h2>
           <p className="lead">
             Complete the weekly Humor Study on HumorStudy.org to record your
-            votes. <br/>
-            Humor Study completion accounts for 50% of your final grade. <br/>
-            Voting opens at 5pm ET each Friday. <br/>
+            votes. <br/><br/>
+            Humor Study completion accounts for 50% of your final grade. <br/><br/>
+            Voting opens at 5pm ET each Friday. <br/><br/>
             Votes are due by 11:59pm ET on Sunday. Late submissions are not accepted.
           </p>
         </section>

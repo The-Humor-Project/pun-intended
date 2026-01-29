@@ -384,32 +384,18 @@ export default function Home() {
         >
           <h2 id="credits-title">Credits</h2>
           <p className="lead">
-            This is a three (3) credit class. Use the following Vergil links to
+            This is a three (3) credit class. Use the following Vergil link to
             sign-up:
             <br />
             <br />
-            COMS3998 section 60: <br/>
-            <a href="https://vergil.columbia.edu/vergil/course/20261/73468/15161">
-              https://vergil.columbia.edu/vergil/course/20261/73468/15161
+            COMS4995W: <br/>
+            <a href="https://vergil.columbia.edu/vergil/course/20261/73060/20388">
+              https://vergil.columbia.edu/vergil/course/20261/73060/20388
             </a>
             <br />
             <br />
-            COMS4901 section 60:<br />
-            <a href="https://vergil.columbia.edu/vergil/course/20261/73471/15217">
-              https://vergil.columbia.edu/vergil/course/20261/73471/15217
-            </a>
-            <br />
-            <br />
-            COMS6901 section 60:<br/>
-            <a href="https://vergil.columbia.edu/vergil/course/20261/20365/15259">
-              https://vergil.columbia.edu/vergil/course/20261/20365/15259
-            </a>
-            <br />
-            <br />
-            Join 3998 if you have never done research before. Join COMS4901 if
-            you have already taken one section of 3998. Join 6901 if you are a
-            Masters student or want master's level credit on your undergrad
-            transcript.
+            Please disregard time in Vergil.  It says 2pm to 5pm.<br/>
+            We will continue to meet from 4pm to 5pm on Fridays.
             <br />
             <br />
             Everyone who joins the waitlist will get in the class. Feel free to

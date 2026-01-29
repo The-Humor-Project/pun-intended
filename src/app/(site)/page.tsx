@@ -394,8 +394,8 @@ export default function Home() {
             </a>
             <br />
             <br />
-            Please disregard time in Vergil.  It says 2pm to 5pm.<br/>
-            We will continue to meet from 4pm to 5pm on Fridays.
+            Please disregard time and location in Vergil.  It says 2pm to 5pm in CEPSR.<br/>
+            We will continue to meet from 4pm to 5pm on Fridays virtually.
             <br />
             <br />
             Everyone who joins the waitlist will get in the class. Feel free to

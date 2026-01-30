@@ -394,10 +394,6 @@ export default function Home() {
             </a>
             <br />
             <br />
-            Please disregard time and location in Vergil.  It says 2pm to 5pm in CEPSR.<br/>
-            We will continue to meet from 4pm to 5pm on Fridays virtually.
-            <br />
-            <br />
             Everyone who joins the waitlist will get in the class. Feel free to
             drop from the waitlist if you need the waitlist spot for another
             class. We will absolutely let you in to the class, even if you are

@@ -8,7 +8,8 @@ export default function AdminHomePage() {
           <p className="eyebrow">Admin Console</p>
           <h1>Admin Home</h1>
           <p className="lead">
-            Choose a section to manage assignments, agendas, semesters, or users.
+            Choose a section to manage assignments, submissions, agendas,
+            semesters, or users.
           </p>
         </header>
 
@@ -24,6 +25,22 @@ export default function AdminHomePage() {
           <div className="admin-panel__actions">
             <Link className="admin-button admin-button--primary" href="/admin/assignments">
               Manage assignments
+            </Link>
+          </div>
+        </section>
+
+        <section className="card admin-section">
+          <div className="admin-section__header">
+            <div>
+              <h2>Submissions</h2>
+              <p className="admin-section__meta">
+                Review assignment submissions and student responses.
+              </p>
+            </div>
+          </div>
+          <div className="admin-panel__actions">
+            <Link className="admin-button admin-button--primary" href="/admin/submissions">
+              Manage submissions
             </Link>
           </div>
         </section>

@@ -11,7 +11,7 @@ import type {Tables} from "@/types/supabase";
 export const metadata: Metadata = {
   title: "Admin Console | The Humor Project",
   description:
-    "Admin tools for assignments, agendas, documentation, semesters, and users.",
+    "Admin tools for assignments, submissions, agendas, documentation, semesters, and users.",
 };
 
 export default async function AdminLayout({
@@ -56,6 +56,9 @@ export default async function AdminLayout({
           <nav className="admin-nav" aria-label="Admin">
             <Link className="admin-nav__link" href="/admin/assignments">
               Assignments
+            </Link>
+            <Link className="admin-nav__link" href="/admin/submissions">
+              Submissions
             </Link>
             <Link className="admin-nav__link" href="/admin/agendas">
               Agendas

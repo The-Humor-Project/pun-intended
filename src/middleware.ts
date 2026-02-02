@@ -71,5 +71,6 @@ export const config = {
     "/profile",
     "/complete-profile",
     "/submissions",
+    "/studies",
   ],
 };

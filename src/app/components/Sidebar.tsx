@@ -332,6 +332,13 @@ export default function Sidebar() {
           </Link>
           <Link
             className="sidebar__link"
+            href="/studies"
+            onClick={handleNavSelection}
+          >
+            Studies
+          </Link>
+          <Link
+            className="sidebar__link"
             href="/submissions"
             onClick={handleNavSelection}
           >

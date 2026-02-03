@@ -16,6 +16,7 @@
   --meeting-accent: #0077c8;
   --meeting-accent-bg: rgba(0, 119, 200, 0.12);
   --meeting-accent-border: rgba(0, 119, 200, 0.24);
+  --error-ink: #b42318;
   --card: #f0f0f0;
   --line: rgba(29, 79, 145, 0.16);
   --shadow: 0 24px 50px rgba(29, 79, 145, 0.14);
@@ -63,6 +64,7 @@
     --meeting-accent: #b9d9eb;
     --meeting-accent-bg: rgba(185, 217, 235, 0.18);
     --meeting-accent-border: rgba(185, 217, 235, 0.4);
+    --error-ink: #fda29b;
     --card: #1d4f91;
     --line: rgba(185, 217, 235, 0.25);
     --shadow: 0 24px 50px rgba(0, 48, 135, 0.55);
@@ -110,6 +112,7 @@
   --meeting-accent: #0077c8;
   --meeting-accent-bg: rgba(0, 119, 200, 0.12);
   --meeting-accent-border: rgba(0, 119, 200, 0.24);
+  --error-ink: #b42318;
   --card: #f0f0f0;
   --line: rgba(29, 79, 145, 0.16);
   --shadow: 0 24px 50px rgba(29, 79, 145, 0.14);
@@ -156,6 +159,7 @@
   --meeting-accent: #b9d9eb;
   --meeting-accent-bg: rgba(185, 217, 235, 0.18);
   --meeting-accent-border: rgba(185, 217, 235, 0.4);
+  --error-ink: #fda29b;
   --card: #1d4f91;
   --line: rgba(185, 217, 235, 0.25);
   --shadow: 0 24px 50px rgba(0, 48, 135, 0.55);
@@ -591,6 +595,23 @@ main {
   outline-offset: 2px;
 }
 
+.auth-theme-toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 20;
+  padding: 14px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  width: min(240px, 90vw);
+}
+
+.auth-theme-toggle .theme-toggle__label {
+  font-size: 0.6rem;
+}
+
 .timezone-select {
   position: relative;
   display: grid;
@@ -928,6 +949,13 @@ main {
   box-shadow: var(--shadow);
 }
 
+.auth-card__logo {
+  width: min(220px, 70vw);
+  height: auto;
+  margin: 0 auto 16px;
+  display: block;
+}
+
 .auth-card__field {
   display: grid;
   gap: 8px;
@@ -983,14 +1011,23 @@ main {
   color: var(--muted);
 }
 
+.auth-card__note {
+  text-align: center;
+}
+
 .auth-card__error {
-  font-size: 0.8rem;
-  color: var(--accent-deep);
+  font-size: 0.95rem;
+  color: var(--error-ink, #b42318);
 }
 
 .auth-card__button {
   font: inherit;
   width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
   border-radius: 999px;
   padding: 10px 14px;
   border: 1px solid var(--primary-button);
@@ -1017,6 +1054,23 @@ main {
   cursor: not-allowed;
   opacity: 0.6;
   transform: none;
+}
+
+.auth-card__button-icon {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #fff;
+  flex: 0 0 auto;
+}
+
+.auth-card__button-icon img {
+  width: 14px;
+  height: 14px;
+  display: block;
 }
 
 .sidebar__link:focus-visible {
@@ -1110,6 +1164,13 @@ main {
   max-width: none;
   width: 100%;
   overflow-wrap: anywhere;
+}
+
+.login-lead {
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
 }
 
 .card {
@@ -3404,6 +3465,50 @@ a:hover {
 
   .week__content {
     padding: 10px 16px 16px;
+  }
+
+  .login-page .page__content {
+    padding: 36px 14px 64px;
+  }
+
+  .login-page .card.auth-card {
+    padding: 16px;
+  }
+
+  .login-page .auth-card__logo {
+    width: min(170px, 60vw);
+    margin-bottom: 12px;
+  }
+
+  .login-page .login-lead {
+    font-size: 1.15rem;
+  }
+
+  .login-page .auth-card__panel {
+    margin-top: 12px;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .login-page .auth-card__button {
+    padding: 9px 12px;
+  }
+
+  .login-page .auth-theme-toggle {
+    right: 12px;
+    bottom: 12px;
+    padding: 10px 12px;
+    width: min(210px, 88vw);
+  }
+
+  .login-page .auth-theme-toggle .theme-toggle__buttons {
+    gap: 6px;
+  }
+
+  .login-page .auth-theme-toggle .theme-toggle__button {
+    min-height: 36px;
+    padding: 8px;
   }
 }
 

@@ -41,7 +41,7 @@ export default async function AdminLayout({
     .single<Pick<Tables<"profiles">, "is_superadmin">>();
 
   if (profileError || !profile?.is_superadmin) {
-    redirect("/");
+    redirect("/access-denied");
   }
 
   return (

@@ -4,6 +4,18 @@ import type {Tables} from "@/types/supabase";
 
 import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
+const isAllowedSchoolEmail = (email: string | null | undefined): boolean => {
+  if (!email) {
+    return false;
+  }
+
+  const normalized = email.trim().toLowerCase();
+  return (
+    normalized.endsWith("@columbia.edu") ||
+    normalized.endsWith("@barnard.edu")
+  );
+};
+
 const getOrigin = (request: NextRequest) => {
   const host = request.headers.get("host") ?? "";
   const protocol = host.includes("localhost") ? "http" : "https";
@@ -44,6 +56,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(
         `${origin}/login?error=${encodeURIComponent(
           "Failed to get user information",
+        )}`,
+      );
+    }
+
+    if (!isAllowedSchoolEmail(user.email ?? null)) {
+      await supabase.auth.signOut();
+      return NextResponse.redirect(
+        `${origin}/login?error=${encodeURIComponent(
+          "Please sign in with a columbia.edu or barnard.edu email address.",
         )}`,
       );
     }

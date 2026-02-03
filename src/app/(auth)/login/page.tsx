@@ -2,8 +2,9 @@
 
 import {useCallback, useEffect, useMemo, useState} from "react";
 import type {Session} from "@supabase/supabase-js";
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 
+import ThemeToggle from "@/app/components/ThemeToggle";
 import {supabase} from "@/app/lib/supabaseClient";
 import {
     clearSupabaseAuthCookiesInBrowser,
@@ -13,6 +14,7 @@ import {
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [session, setSession] = useState<Session | null>(null);
   const [isBooting, setIsBooting] = useState(true);
   const [isWorking, setIsWorking] = useState(false);
@@ -73,6 +75,13 @@ export default function LoginPage() {
       data.subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    const queryError = searchParams.get("error");
+    if (queryError && !authError) {
+      setAuthError(queryError);
+    }
+  }, [authError, searchParams]);
 
   const accountDetails = useMemo(() => {
     if (!session?.user) {
@@ -143,22 +152,22 @@ export default function LoginPage() {
   const isAuthDisabled = !hasSupabaseConfig || isBooting || isWorking;
 
   return (
-    <main className="page">
+    <main className="page login-page">
       <div className="page__content">
         <section className="card auth-card" aria-labelledby="login-title">
-          <h2
-            id="login-title"
-            className="section-title reveal"
-            style={{ animationDelay: "0ms" }}
-          >
+          <img
+            className="auth-card__logo"
+            src="/columbia-crown.svg"
+            alt="Columbia University crown"
+          />
+          <h2 id="login-title" className="sr-only">
             Account
           </h2>
-          <p className="lead">
-            Sign in to access course materials.
+          <p className="lead login-lead">
+            The Humor Project™
           </p>
 
           <div className="auth-card__panel" aria-live="polite">
-            <span className="auth-card__label">Status</span>
             {isBooting ? (
               <span className="auth-card__note">Checking your session...</span>
             ) : accountDetails ? (
@@ -172,26 +181,34 @@ export default function LoginPage() {
                   </span>
                 ) : null}
               </div>
-            ) : (
-              <span className="auth-card__note">
-                {hasSupabaseConfig ? "Not signed in." : "Sign in unavailable."}
-              </span>
-            )}
+            ) : null}
 
             {authError ? (
               <span className="auth-card__error">{authError}</span>
             ) : null}
-
             <button
               type="button"
               className="auth-card__button"
               onClick={session ? handleSignOut : handleSignIn}
               disabled={isAuthDisabled}
             >
-              {session ? "Sign Out" : "Sign In with Google"}
+              {!session ? (
+                <span className="auth-card__button-icon" aria-hidden="true">
+                  <img src="/google-g.svg" alt="" />
+                </span>
+              ) : null}
+              <span>{session ? "Sign Out" : "Sign In with Google"}</span>
             </button>
+            {!session ? (
+              <span className="auth-card__note">
+                Sign in with your @columbia.edu or @barnard.edu Google account.
+              </span>
+            ) : null}
           </div>
         </section>
+      </div>
+      <div className="auth-theme-toggle">
+        <ThemeToggle />
       </div>
     </main>
   );

@@ -428,7 +428,8 @@ export default function Home() {
             </li>
             <li>
               HumorStudy.org will be used to record your votes for each week's
-              humor study.
+              humor study.  Please use your Columbia/Barnard Google account when
+              participating in the humor study.
             </li>
             <li>Late submissions on your project deliverables are not accepted.</li>
             <li>

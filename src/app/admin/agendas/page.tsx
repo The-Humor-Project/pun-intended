@@ -4,8 +4,9 @@ import {type FormEvent, useCallback, useEffect, useMemo, useState} from "react";
 
 import type {Tables} from "@/types/supabase";
 
-import RichTextEditor from "@/app/admin/components/RichTextEditor";
+import MarkdownEditor from "@/app/admin/components/MarkdownEditor";
 import {useAdminSession} from "@/app/admin/lib/useAdminSession";
+import {hasMarkdownContent} from "@/app/lib/markdown";
 import {supabase} from "@/app/lib/supabaseClient";
 
 type MeetingAgendaRow = Tables<"meeting_agendas">;
@@ -70,10 +71,6 @@ const toUtcIso = (value: string) => {
   return date.toISOString();
 };
 
-const stripHtml = (value: string) =>
-  value.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").trim();
-
-const hasRichTextContent = (value: string) => stripHtml(value).length > 0;
 
 export default function AgendasAdminPage() {
   const {
@@ -206,7 +203,7 @@ export default function AgendasAdminPage() {
 
     if (
       !title ||
-      !hasRichTextContent(content) ||
+      !hasMarkdownContent(content) ||
       !location ||
       !meetingDate ||
       !semesterId
@@ -293,7 +290,7 @@ export default function AgendasAdminPage() {
 
     if (
       !title ||
-      !hasRichTextContent(content) ||
+      !hasMarkdownContent(content) ||
       !location ||
       !meetingDate ||
       !semesterId
@@ -490,7 +487,7 @@ export default function AgendasAdminPage() {
 
                         <div className="admin-field admin-field--full">
                           <span className="admin-field__label">Content</span>
-                          <RichTextEditor
+                          <MarkdownEditor
                             value={agenda.content}
                             onChange={(nextValue) =>
                               updateAgenda(agenda.id, {
@@ -609,7 +606,7 @@ export default function AgendasAdminPage() {
 
                 <div className="admin-field admin-field--full">
                   <span className="admin-field__label">Content</span>
-                  <RichTextEditor
+                  <MarkdownEditor
                     value={newAgenda.content}
                     onChange={(nextValue) =>
                       setNewAgenda((prev) => ({

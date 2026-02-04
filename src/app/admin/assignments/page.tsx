@@ -4,8 +4,9 @@ import {type FormEvent, useCallback, useEffect, useMemo, useState} from "react";
 
 import type {Tables} from "@/types/supabase";
 
-import RichTextEditor from "@/app/admin/components/RichTextEditor";
+import MarkdownEditor from "@/app/admin/components/MarkdownEditor";
 import {useAdminSession} from "@/app/admin/lib/useAdminSession";
+import {hasMarkdownContent} from "@/app/lib/markdown";
 import {supabase} from "@/app/lib/supabaseClient";
 
 type AssignmentRow = Tables<"assignments">;
@@ -68,10 +69,6 @@ const toUtcIso = (value: string) => {
   return date.toISOString();
 };
 
-const stripHtml = (value: string) =>
-  value.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").trim();
-
-const hasRichTextContent = (value: string) => stripHtml(value).length > 0;
 
 export default function AssignmentsAdminPage() {
   const {
@@ -273,7 +270,7 @@ export default function AssignmentsAdminPage() {
     const dueDate = toUtcIso(newAssignment.dueDateLocal);
     const semesterId = Number(newAssignment.semesterId);
 
-    if (!title || !hasRichTextContent(description) || !dueDate || !semesterId) {
+    if (!title || !hasMarkdownContent(description) || !dueDate || !semesterId) {
       setErrorMessage("Complete all assignment fields before saving.");
       return;
     }
@@ -477,15 +474,15 @@ export default function AssignmentsAdminPage() {
                             <span className="admin-field__label">
                               Description
                             </span>
-                            <RichTextEditor
-                              value={assignment.description}
-                              onChange={(nextValue) =>
-                                updateAssignment(assignment.id, {
-                                  description: nextValue,
-                                })
-                              }
-                              ariaLabel={`Assignment ${assignment.id} description`}
-                            />
+                          <MarkdownEditor
+                            value={assignment.description}
+                            onChange={(nextValue) =>
+                              updateAssignment(assignment.id, {
+                                description: nextValue,
+                              })
+                            }
+                            ariaLabel={`Assignment ${assignment.id} description`}
+                          />
                           </div>
 
                           <label className="admin-field">
@@ -578,12 +575,12 @@ export default function AssignmentsAdminPage() {
 
                   <div className="admin-field admin-field--full">
                     <span className="admin-field__label">Description</span>
-                    <RichTextEditor
-                      value={newAssignment.description}
-                      onChange={(nextValue) =>
-                        setNewAssignment((prev) => ({
-                          ...prev,
-                          description: nextValue,
+                  <MarkdownEditor
+                    value={newAssignment.description}
+                    onChange={(nextValue) =>
+                      setNewAssignment((prev) => ({
+                        ...prev,
+                        description: nextValue,
                         }))
                       }
                       ariaLabel="New assignment description"

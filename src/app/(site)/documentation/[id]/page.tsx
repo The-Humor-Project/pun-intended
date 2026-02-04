@@ -4,7 +4,7 @@ import {notFound, redirect} from "next/navigation";
 
 import type {Tables} from "@/types/supabase";
 
-import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
+import {hasMarkdownContent, renderMarkdown} from "@/app/lib/markdown";
 import {resolveTimeZone} from "@/app/lib/resolveTimeZone";
 import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
@@ -38,10 +38,6 @@ const formatTimestamp = (value: string | null, timeZone?: string) => {
   return date.toLocaleString(undefined, options);
 };
 
-const stripHtml = (value: string) =>
-  value.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").trim();
-
-const hasRichTextContent = (value: string) => stripHtml(value).length > 0;
 
 export default async function DocumentationPage({
   params,
@@ -132,11 +128,11 @@ export default async function DocumentationPage({
               {formatTimestamp(updatedAt, timeZone)}
             </span>
           </div>
-          {hasRichTextContent(documentation.content) ? (
+          {hasMarkdownContent(documentation.content) ? (
             <div
               className="assignment-body"
               dangerouslySetInnerHTML={{
-                __html: decodeHtmlEntities(documentation.content),
+                __html: renderMarkdown(documentation.content),
               }}
             />
           ) : (

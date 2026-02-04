@@ -4,7 +4,7 @@ import {notFound, redirect} from "next/navigation";
 
 import type {Tables} from "@/types/supabase";
 
-import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
+import {hasMarkdownContent, renderMarkdown} from "@/app/lib/markdown";
 import {resolveTimeZone} from "@/app/lib/resolveTimeZone";
 import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
@@ -120,11 +120,11 @@ export default async function AssignmentPage({ params }: AssignmentPageProps) {
                   </span>
                 </div>
               </div>
-              {assignment.description ? (
+              {hasMarkdownContent(assignment.description) ? (
                 <div
                   className="assignment-body"
                   dangerouslySetInnerHTML={{
-                    __html: decodeHtmlEntities(assignment.description),
+                    __html: renderMarkdown(assignment.description),
                   }}
                 />
               ) : (

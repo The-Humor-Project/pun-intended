@@ -4,8 +4,9 @@ import {type FormEvent, useCallback, useEffect, useMemo, useState} from "react";
 
 import type {Tables} from "@/types/supabase";
 
-import RichTextEditor from "@/app/admin/components/RichTextEditor";
+import MarkdownEditor from "@/app/admin/components/MarkdownEditor";
 import {useAdminSession} from "@/app/admin/lib/useAdminSession";
+import {hasMarkdownContent} from "@/app/lib/markdown";
 import {supabase} from "@/app/lib/supabaseClient";
 
 type DocumentationRow = Tables<"documentations">;
@@ -34,10 +35,6 @@ const formatTimestamp = (value: string | null) => {
   return date.toLocaleString();
 };
 
-const stripHtml = (value: string) =>
-  value.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").trim();
-
-const hasRichTextContent = (value: string) => stripHtml(value).length > 0;
 
 export default function DocumentationsAdminPage() {
   const {
@@ -152,7 +149,7 @@ export default function DocumentationsAdminPage() {
     const title = documentation.title.trim();
     const content = documentation.content.trim();
 
-    if (!title || !hasRichTextContent(content)) {
+    if (!title || !hasMarkdownContent(content)) {
       setErrorMessage("Complete all documentation fields before saving.");
       return;
     }
@@ -227,7 +224,7 @@ export default function DocumentationsAdminPage() {
     const title = newDocumentation.title.trim();
     const content = newDocumentation.content.trim();
 
-    if (!title || !hasRichTextContent(content)) {
+    if (!title || !hasMarkdownContent(content)) {
       setErrorMessage("Complete all documentation fields before saving.");
       return;
     }
@@ -430,7 +427,7 @@ export default function DocumentationsAdminPage() {
 
                         <div className="admin-field admin-field--full">
                           <span className="admin-field__label">Content</span>
-                          <RichTextEditor
+                          <MarkdownEditor
                             value={documentation.content}
                             onChange={(nextValue) =>
                               updateDocumentation(documentation.id, {
@@ -495,7 +492,7 @@ export default function DocumentationsAdminPage() {
 
                 <div className="admin-field admin-field--full">
                   <span className="admin-field__label">Content</span>
-                  <RichTextEditor
+                  <MarkdownEditor
                     value={newDocumentation.content}
                     onChange={(nextValue) =>
                       setNewDocumentation((prev) => ({

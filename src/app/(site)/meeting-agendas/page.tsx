@@ -4,7 +4,7 @@ import {redirect} from "next/navigation";
 
 import type {Tables} from "@/types/supabase";
 
-import {decodeHtmlEntities} from "@/app/lib/decodeHtmlEntities";
+import {hasMarkdownContent, renderMarkdown} from "@/app/lib/markdown";
 import {resolveTimeZone} from "@/app/lib/resolveTimeZone";
 import {createSupabaseServerClient} from "@/app/lib/supabaseServerClient";
 
@@ -39,10 +39,6 @@ const formatMeetingDate = (value: string, timeZone?: string) => {
   return `${weekday}, ${date.toLocaleString(undefined, dateTimeOptions)}`;
 };
 
-const stripHtml = (value: string) =>
-  value.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").trim();
-
-const hasRichTextContent = (value: string) => stripHtml(value).length > 0;
 
 export default async function MeetingAgendasPage() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -127,11 +123,11 @@ export default async function MeetingAgendasPage() {
                             </span>
                           </div>
                         </div>
-                        {hasRichTextContent(agenda.content) ? (
+                        {hasMarkdownContent(agenda.content) ? (
                           <div
                             className="assignment-body"
                             dangerouslySetInnerHTML={{
-                              __html: decodeHtmlEntities(agenda.content),
+                              __html: renderMarkdown(agenda.content),
                             }}
                           />
                         ) : (

@@ -274,7 +274,8 @@ export default async function StudiesPage() {
             Studies
           </h2>
           <p className="lead">
-            Track your humor study progress and deadlines.
+            Track your humor study progress and deadlines.<br/>
+            Humor studies are completed at humorstudy.org
           </p>
           {sortedStudies.length === 0 ? (
             <p className="week__empty">No studies assigned yet.</p>

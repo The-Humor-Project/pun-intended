@@ -81,18 +81,6 @@ export async function middleware(request: NextRequest) {
     return redirectResponse;
   }
 
-  if (request.nextUrl.pathname.startsWith("/admin")) {
-    const { data: profile, error: profileError } = await supabase
-      .from("profiles")
-      .select("is_superadmin")
-      .eq("id", data.session.user.id)
-      .single();
-
-    if (profileError || !profile?.is_superadmin) {
-      return NextResponse.redirect(new URL("/access-denied", request.url));
-    }
-  }
-
   return response;
 }
 

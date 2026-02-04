@@ -8,7 +8,6 @@ import type {Session} from "@supabase/supabase-js";
 
 import ThemeToggle from "./ThemeToggle";
 import TimezoneSelect from "./TimezoneSelect";
-import type {Tables} from "@/types/supabase";
 import {supabase} from "@/app/lib/supabaseClient";
 import {
     clearSupabaseAuthCookiesInBrowser,
@@ -42,7 +41,6 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
-  const [isSuperadmin, setIsSuperadmin] = useState(false);
   const [isBooting, setIsBooting] = useState(true);
   const [isWorking, setIsWorking] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -168,40 +166,6 @@ export default function Sidebar() {
     };
   }, []);
 
-  useEffect(() => {
-    const client = supabase;
-    if (!client || !session?.user?.id) {
-      setIsSuperadmin(false);
-      return;
-    }
-
-    let mounted = true;
-
-    const loadAdminFlag = async () => {
-      const { data, error } = await client
-        .from("profiles")
-        .select("is_superadmin")
-        .eq("id", session.user.id)
-        .single<Pick<Tables<"profiles">, "is_superadmin">>();
-
-      if (!mounted) {
-        return;
-      }
-
-      if (error) {
-        setIsSuperadmin(false);
-        return;
-      }
-
-      setIsSuperadmin(Boolean(data?.is_superadmin));
-    };
-
-    void loadAdminFlag();
-
-    return () => {
-      mounted = false;
-    };
-  }, [session]);
 
   const handleSignOut = useCallback(async () => {
     const client = supabase;
@@ -404,15 +368,6 @@ export default function Sidebar() {
               <TimezoneSelect />
               {session ? (
                 <>
-                  {isSuperadmin ? (
-                    <Link
-                      className="sidebar__account-button sidebar__account-button--center"
-                      href="/admin"
-                      onClick={handleAccountAction}
-                    >
-                      Admin
-                    </Link>
-                  ) : null}
                   <Link
                     className="sidebar__account-button sidebar__account-button--center"
                     href="/profile"

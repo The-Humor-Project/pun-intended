@@ -1,6 +1,6 @@
 "use client";
 
-import { useAdminSession } from "@/app/admin/lib/useAdminSession";
+import {useAdminSession} from "@/app/admin/lib/useAdminSession";
 
 export default function AdminHeaderSignOut() {
   const { session, signOut } = useAdminSession();
@@ -10,7 +10,11 @@ export default function AdminHeaderSignOut() {
   }
 
   return (
-    <button className="admin-topbar__link" type="button" onClick={signOut}>
+    <button
+      className="admin-sidebar__link admin-sidebar__action"
+      type="button"
+      onClick={signOut}
+    >
       Sign out
     </button>
   );

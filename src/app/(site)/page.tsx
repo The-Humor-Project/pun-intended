@@ -335,8 +335,8 @@ export default function Home() {
             Use the following link to join the virtual meetings on Google Meet:
             <br />
             <br />
-            <a href={"https://www.tinyurl.com/columbia-university"}>
-              https://tinyurl.com/columbia-university
+            <a href={"https://tinyurl.com/the-humor-project-meet"}>
+              https://tinyurl.com/the-humor-project-meet
             </a>
             <br />
             <br />
